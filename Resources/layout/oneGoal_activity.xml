@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+     <Button
+        android:id="@+id/buttonContinue"
+        android:layout_width="150dp"
+        android:layout_height="65dp"
+        android:text="Продолжить"
+        android:textColor="@android:color/background_dark"
+        android:backgroundTint="@color/material_grey_300"
+        android:textAllCaps="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop = "440dp"
+        />
+    <TextView
+        android:id="@+id/textview_about_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Введите вашу цель"
+        android:layout_marginTop="50dp"
+        android:textSize="35dp"
+        android:textColor="@color/colorPrimaryDark"
+        />
+    <EditText
+        android:id="@+id/goalEditText"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="32dp"
+        android:gravity="left"
+        android:ems="1"
+        android:hint="Ввод.."
+        android:maxLines="1"
+        android:text=""/>
+
+    <TextView
+        android:id="@+id/dataDeadline"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Срок выполнения"
+        android:layout_marginTop="180dp"
+        android:textSize="35dp"
+        android:textColor="@color/colorPrimaryDark"
+        />
+    <EditText
+        android:id="@+id/dataEditText1"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="230dp"
+        android:layout_marginLeft="110dp"
+        android:gravity="left"
+        android:ems="1"
+        android:inputType="date"
+        android:hint="Ввод даты (дд.мм.гггг)"
+        android:maxLength="10"/>
+    <TextView
+        android:id="@+id/pointText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Сложность цели"
+        android:layout_marginTop="310dp"
+        android:textSize="35dp"
+        android:textColor="@color/colorPrimaryDark"
+        />
+    <EditText
+        android:id="@+id/pointInputText"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="360dp"
+        android:layout_marginLeft="32dp"
+        android:gravity="left"
+        android:ems="1"
+        android:inputType="numberSigned"
+        android:lines="1"
+        android:hint="Ввод (от 1 до 10).."
+        android:maxLength="2"/>
+    <ImageButton
+        android:id="@+id/CalendarButton"
+        android:scaleType="centerCrop"
+        android:layout_width="145px"
+        android:layout_height="60dp"
+        android:src = "@drawable/calendar"
+        android:layout_marginTop="240dp"
+        android:layout_marginLeft="35dp"/>
+</RelativeLayout>

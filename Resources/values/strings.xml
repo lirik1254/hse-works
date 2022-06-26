@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Планировщик целей</string>
+    <string name="action_settings">Settings</string>
+	<string name="howMuchRemainText">
+		<b>goal</b>
+	</string>
+</resources>
