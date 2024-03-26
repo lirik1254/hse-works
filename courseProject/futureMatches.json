@@ -1,0 +1,288 @@
+{
+    "get": "fixtures",
+    "parameters": {
+        "league": "238",
+        "timezone": "Europe/Moscow",
+        "next": "4"
+    },
+    "errors": [],
+    "results": 4,
+    "paging": {
+        "current": 1,
+        "total": 1
+    },
+    "response": [
+        {
+            "fixture": {
+                "id": 1170676,
+                "referee": null,
+                "timezone": "Europe/Moscow",
+                "date": "2024-03-29T11:00:00+03:00",
+                "timestamp": 1711699200,
+                "periods": {
+                    "first": null,
+                    "second": null
+                },
+                "venue": {
+                    "id": null,
+                    "name": "Sport Baza Bazhoviya",
+                    "city": "Sysert"
+                },
+                "status": {
+                    "long": "Not Started",
+                    "short": "NS",
+                    "elapsed": null
+                }
+            },
+            "league": {
+                "id": 238,
+                "name": "Youth Championship",
+                "country": "Russia",
+                "logo": "https://media.api-sports.io/football/leagues/238.png",
+                "flag": "https://media.api-sports.io/flags/ru.svg",
+                "season": 2024,
+                "round": "Regular Season - 3"
+            },
+            "teams": {
+                "home": {
+                    "id": 9231,
+                    "name": "Ural U20",
+                    "logo": "https://media.api-sports.io/football/teams/9231.png",
+                    "winner": null
+                },
+                "away": {
+                    "id": 7951,
+                    "name": "CSKA Moskva U19",
+                    "logo": "https://media.api-sports.io/football/teams/7951.png",
+                    "winner": null
+                }
+            },
+            "goals": {
+                "home": null,
+                "away": null
+            },
+            "score": {
+                "halftime": {
+                    "home": null,
+                    "away": null
+                },
+                "fulltime": {
+                    "home": null,
+                    "away": null
+                },
+                "extratime": {
+                    "home": null,
+                    "away": null
+                },
+                "penalty": {
+                    "home": null,
+                    "away": null
+                }
+            }
+        },
+        {
+            "fixture": {
+                "id": 1170768,
+                "referee": null,
+                "timezone": "Europe/Moscow",
+                "date": "2024-03-29T13:00:00+03:00",
+                "timestamp": 1711706400,
+                "periods": {
+                    "first": null,
+                    "second": null
+                },
+                "venue": {
+                    "id": 8970,
+                    "name": "UTB Novogorsk-Dynamo",
+                    "city": "Khimki"
+                },
+                "status": {
+                    "long": "Not Started",
+                    "short": "NS",
+                    "elapsed": null
+                }
+            },
+            "league": {
+                "id": 238,
+                "name": "Youth Championship",
+                "country": "Russia",
+                "logo": "https://media.api-sports.io/football/leagues/238.png",
+                "flag": "https://media.api-sports.io/flags/ru.svg",
+                "season": 2024,
+                "round": "Regular Season - 3"
+            },
+            "teams": {
+                "home": {
+                    "id": 16594,
+                    "name": "Dinamo Moskva U19",
+                    "logo": "https://media.api-sports.io/football/teams/16594.png",
+                    "winner": null
+                },
+                "away": {
+                    "id": 19295,
+                    "name": "Fakel U19",
+                    "logo": "https://media.api-sports.io/football/teams/19295.png",
+                    "winner": null
+                }
+            },
+            "goals": {
+                "home": null,
+                "away": null
+            },
+            "score": {
+                "halftime": {
+                    "home": null,
+                    "away": null
+                },
+                "fulltime": {
+                    "home": null,
+                    "away": null
+                },
+                "extratime": {
+                    "home": null,
+                    "away": null
+                },
+                "penalty": {
+                    "home": null,
+                    "away": null
+                }
+            }
+        },
+        {
+            "fixture": {
+                "id": 1170675,
+                "referee": null,
+                "timezone": "Europe/Moscow",
+                "date": "2024-03-29T13:00:00+03:00",
+                "timestamp": 1711706400,
+                "periods": {
+                    "first": null,
+                    "second": null
+                },
+                "venue": {
+                    "id": null,
+                    "name": null,
+                    "city": null
+                },
+                "status": {
+                    "long": "Not Started",
+                    "short": "NS",
+                    "elapsed": null
+                }
+            },
+            "league": {
+                "id": 238,
+                "name": "Youth Championship",
+                "country": "Russia",
+                "logo": "https://media.api-sports.io/football/leagues/238.png",
+                "flag": "https://media.api-sports.io/flags/ru.svg",
+                "season": 2024,
+                "round": "Regular Season - 3"
+            },
+            "teams": {
+                "home": {
+                    "id": 17151,
+                    "name": "Nizhny Novgorod U19",
+                    "logo": "https://media.api-sports.io/football/teams/17151.png",
+                    "winner": null
+                },
+                "away": {
+                    "id": 16595,
+                    "name": "Rostov U19",
+                    "logo": "https://media.api-sports.io/football/teams/16595.png",
+                    "winner": null
+                }
+            },
+            "goals": {
+                "home": null,
+                "away": null
+            },
+            "score": {
+                "halftime": {
+                    "home": null,
+                    "away": null
+                },
+                "fulltime": {
+                    "home": null,
+                    "away": null
+                },
+                "extratime": {
+                    "home": null,
+                    "away": null
+                },
+                "penalty": {
+                    "home": null,
+                    "away": null
+                }
+            }
+        },
+        {
+            "fixture": {
+                "id": 1170672,
+                "referee": null,
+                "timezone": "Europe/Moscow",
+                "date": "2024-03-29T15:00:00+03:00",
+                "timestamp": 1711713600,
+                "periods": {
+                    "first": null,
+                    "second": null
+                },
+                "venue": {
+                    "id": null,
+                    "name": "Stadion Metallurg",
+                    "city": "Samara"
+                },
+                "status": {
+                    "long": "Not Started",
+                    "short": "NS",
+                    "elapsed": null
+                }
+            },
+            "league": {
+                "id": 238,
+                "name": "Youth Championship",
+                "country": "Russia",
+                "logo": "https://media.api-sports.io/football/leagues/238.png",
+                "flag": "https://media.api-sports.io/flags/ru.svg",
+                "season": 2024,
+                "round": "Regular Season - 3"
+            },
+            "teams": {
+                "home": {
+                    "id": 17150,
+                    "name": "Krylya Sovetov U19",
+                    "logo": "https://media.api-sports.io/football/teams/17150.png",
+                    "winner": null
+                },
+                "away": {
+                    "id": 15180,
+                    "name": "UOR \u21165 U20",
+                    "logo": "https://media.api-sports.io/football/teams/15180.png",
+                    "winner": null
+                }
+            },
+            "goals": {
+                "home": null,
+                "away": null
+            },
+            "score": {
+                "halftime": {
+                    "home": null,
+                    "away": null
+                },
+                "fulltime": {
+                    "home": null,
+                    "away": null
+                },
+                "extratime": {
+                    "home": null,
+                    "away": null
+                },
+                "penalty": {
+                    "home": null,
+                    "away": null
+                }
+            }
+        }
+    ]
+}
