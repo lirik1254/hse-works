@@ -3,7 +3,6 @@ import pymorphy2
 import nltk
 from nltk.corpus import stopwords
 from collections import Counter
-from nltk.stem import SnowballStemmer
 
 nltk.download('punkt')
 nltk.download('stopwords')
@@ -20,7 +19,7 @@ def data_prepare(text):
     tokens = [i.lower() for i in tokens]  # Приводим к нижнему регистру
 
     tokens = [i for i in tokens if i not in stopwords.words('russian')]  # Избавляемся от стоп-слов
-    tokens = [i for i in tokens if i != "че" and i != "ещё" and i != "ещё" and i != "это" and i != '"' and i != "чё"]
+    tokens = [i for i in tokens if i != "че" and i != "ещё" and i != "еще" and i != "это" and i != '"' and i != "чё"]
     return tokens
 
 
@@ -41,21 +40,3 @@ def create_frequency_dict_lemma(text):
     # Сортируем словарь по убыванию частоты
     return dict(sorted(counter_lemma.items(), key=lambda item: item[1], reverse=True))
 
-
-# Метод для построения частотного словаря через стемминг
-def create_frequency_dict_stemming(text):
-    tokens = data_prepare(text)
-    stemmer = SnowballStemmer('russian')
-
-    tokens_stemma = [stemmer.stem(i) for i in tokens]  # Стеммируем
-
-    tokens_stemma = [i for i in tokens_stemma if
-                     i not in stopwords.words('russian')]  # Избавляемся от стоп-слов ещё раз,
-    # поскольку стемминг их порождает
-
-    counter_stemma = Counter()  # Построение частотного словаря
-    counter_stemma.update(tokens_stemma)
-
-    counter_stemma = dict(sorted(counter_stemma.items(), key=lambda item: item[1], reverse=True))
-
-    return counter_stemma

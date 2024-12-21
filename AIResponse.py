@@ -1,7 +1,8 @@
 import requests
 import time
 
-# Get you free api key https://app.hyperbolic.xyz/
+# https://app.hyperbolic.xyz/
+# Можем юзать мой гпт ключ, там на сто лет хватит
 my_gpt_api = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ6aGFzaDIzMDhAbWFpbC5ydSIsImlhdCI6MTczMzkzNzM1NX0.bL4Fp-C-k3gObuKpNFH4oz68vo4IFdND0RpCHPbMYRs"
 
 
@@ -30,10 +31,11 @@ def getAnswer(message):
             data['messages'][0]['content'] = message
             response = requests.post(url, headers=headers, json=data)
             response = response.json()
+            end = time.time()
             return response
         except Exception:
             try:
-                ## Обновление контекста в случае неудачного получения ответа от api
+                # Обновление контекста в случае неудачного получения ответа от api
                 data['messages'][0]['content'] = "Расскажи о картошке"
                 response = requests.post(url, headers=headers, json=data)
             except Exception:
