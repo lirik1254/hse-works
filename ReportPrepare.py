@@ -8,7 +8,8 @@ def summarize_day(messages):
     id_name_dict = dict()
     messages_list = list()
     for msg in messages:
-        id_name_dict[msg['from_id']] = get_user_name(msg['from_id'])
+        if not id_name_dict.get(msg['from_id']):
+            id_name_dict[msg['from_id']] = get_user_name(msg['from_id'])
         if len(msg['text'].split(" ")) < 150:
             messages_list.append(msg['text'])
 
