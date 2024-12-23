@@ -27,7 +27,8 @@ def summarize_day(messages):
 
     for msg in messages[::-1]:
         author_name = id_name_dict[msg['from_id']]
-        message_string += f"{author_name}: {msg['text']}\n"
+        if "Всего сообщений за день" not in msg['text']:
+            message_string += f"{author_name}: {msg['text']}\n"
 
     word_stats = create_frequency_dict_lemma(" ".join(messages_list))
     top_words = "\n".join([f"{word}: {count}" for word, count in sorted(word_stats.items(), key = lambda x: x[1], reverse = True)[:10]])
@@ -49,6 +50,7 @@ def calculate_user_stats(messages):
     return top_users_by_messages, top_users_by_words
 
 def report_message_prepare():
+    medals = ["🥇", "🥈", "🥉", "     \u2006", "     \u2006", "     \u2006", "     \u2006", "     \u2006", "     \u2006", "     \u2006"]
     """Отправляет отчёт за день."""
     start_time, end_time = get_unix_time_range_previous_day()
     messages = get_messages_for_day(PEER_ID, start_time, end_time)
@@ -58,12 +60,13 @@ def report_message_prepare():
 
     total_messages = sum(count for i, count in top_users_by_messages)
     top_users_string = "\n".join(
-        [f"{i + 1}) {get_user_name(user_id)}: {count} сообщений" for i, (user_id, count) in enumerate(top_users_by_messages[:5])]
+        [f"{medals[i]} {get_user_name(user_id)}: {count} сообщений" for i, (user_id, count) in enumerate(top_users_by_messages[:5])]
     )
     top_words_string = "\n".join(
-        [f"{i + 1}) {get_user_name(user_id)}: {count} слов" for i, (user_id, count) in enumerate(top_users_by_words[:5])]
+        [f"{medals[i]} {get_user_name(user_id)}: {count} слов" for i, (user_id, count) in enumerate(top_users_by_words[:5])]
     )
 
+    top_words = "\n".join(f"{medals[i]} {line}" for i, line in enumerate(top_words.splitlines()))
     # Удаляем прошедший контекст рандомным вопросом
     getAnswer("Какую еду любят в японии?")
 
