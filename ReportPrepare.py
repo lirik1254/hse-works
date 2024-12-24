@@ -1,7 +1,7 @@
 from WordsTop import create_frequency_dict_lemma
 from VKInteraction import get_user_name, PEER_ID, get_messages_for_day
 from TimeUtils import get_unix_time_range_previous_day
-from AIResponse import getAnswer
+from AIResponse import get_answer
 from StickerUtils import get_attachment
 def summarize_day(messages):
     """Обрабатывает и составляет краткий пересказ дня."""
@@ -13,21 +13,7 @@ def summarize_day(messages):
         if len(msg['text'].split(" ")) < 150:
             messages_list.append(msg['text'])
 
-    message_string = ("Начни новый диалог - забудь предыдущий контекст."
-                      "Ниже будут все сообщения, которые были в беседе за день.\n"
-                      "Мне нужно, чтобы ты пересказал коротко (200-250 слов, но если мысль важно закончить, можно побольше), что "
-                      "сегодня происходило, выделив какие-то интересные сообщения и моменты. Интересных и конкретных моментов должно быть побольше."
-                      " Обязательно выдели хотя бы одно интересное сообщение пользователя в духе 'один из участников признался, что..'. Но также "
-                      "старайся использовать различные литературные фразы. Начни с 'Сегодня в ПИ общались о..\n"
-                      "Также когда говоришь об интересных моментах, не стесняйся переходить на личности и писать имена участников.\n"
-                      "Выдели больше смешных моментов, может даже преувеличивать\n"
-                      "Если участники о чем-то тебя просят, делай это\n"
-                      "И ещё - должно быть больше юмора и смешных моментов. Не столько важна точность, сколько абсурдность и смех\n"
-                      "Используй побольше матюков и дроби текст на смысловые абзацы\n"
-                      "Больше ЮМОРА БОЛЬШЕ МАТОВ БОЛЬШЕ СМЕХА ДОЛЖНО БЫТЬ ШОУ ПОСТИРОНИИ\n"
-                      "Попробуй также менять смысл каждого сообщения на противоположный, а человека, который пишет это сообщения - делать случайным из всех"
-                      " кто вообще писал сообщения в беседу за день.\nВперёд\n"
-                      "Вот все сообщения:\n\n")
+    message_string = "Вот все сообщения:\n\n"
 
     for msg in messages[::-1]:
         author_name = id_name_dict[msg['from_id']]
@@ -103,9 +89,9 @@ def report_message_prepare():
 
     top_words = "\n".join(f"{medals[i]} {line}" for i, line in enumerate(top_words.splitlines()))
     # Удаляем прошедший контекст рандомным вопросом
-    getAnswer("Какую еду любят в японии?")
+    get_answer("Какую еду любят в японии?")
 
     # Получаем
-    gpt_summary = getAnswer(message_summary)
+    gpt_summary = get_answer(message_summary)
 
     return total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment, stickers_count
