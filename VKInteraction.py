@@ -52,13 +52,17 @@ def get_user_name(user_id):
 
 def send_report(peer_id):
     from ReportPrepare import report_message_prepare
-    total_messages, top_users_string, top_words_string, top_words, gpt_summary = report_message_prepare()
+    total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment, stickers_count = report_message_prepare()
     report = (
-        f"Всего сообщений за день: {total_messages}\n\n"
+        f"Всего сообщений за день: {total_messages}\n"
+        f"Из них стикеров: {stickers_count}\n\n"
         f"🏆 Топ 5 по количеству сообщений:\n{top_users_string}\n\n"
         f"🏆 Топ 5 по количеству слов:\n{top_words_string}\n\n"
         f"🏆 Топ 10 слов за день:\n{top_words}\n\n"
-        f"🤠 Краткий пересказ, о чем говорили за день:\n\n{gpt_summary['choices'][0]['message']['content']}"
+        f"🤠 Краткий пересказ, о чем говорили за день:\n\n{gpt_summary['choices'][0]['message']['content']}\n\n"
     )
     # Чтобы отправлять не в ту же беседу, откуда парсились сообщения - замени peer_id на нужный параметр
     vk.messages.send(peer_id=peer_id, message=report, random_id=int(time.time()))
+    time.sleep(1)
+
+    vk.messages.send(peer_id=peer_id, message="🏆 Самый часто встречающийся за день стикер", attachment=sticker_attachment, random_id=int(time.time()))

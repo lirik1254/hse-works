@@ -13,10 +13,7 @@ headers = {
 }
 data = {
     "messages": [
-        {
-            "role": "user",
-            "content": "Расскажи кратко как не откладывать на завтра?"
-        }
+        {"role": "user", "content": "Расскажи кратко как не откладывать на завтра?"},
     ],
     "model": "meta-llama/Llama-3.3-70B-Instruct",
     "max_tokens": 8192,
