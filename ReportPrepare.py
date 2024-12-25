@@ -76,17 +76,15 @@ def get_stickers_count(messagse):
 
 
 def get_reactions_top(messages):
-    reaction_counts = {}  # Словарь для хранения количества реакций по ID сообщений
+    reaction_counts = {}
     count = 0
     for msg in messages:
         if 'reactions' in msg:
-            # Подсчитываем общее количество реакций для данного сообщения
-            count = sum(reaction['count'] for reaction in msg['reactions']) + count
+            count += sum(reaction['count'] for reaction in msg['reactions'])
             for reaction in msg['reactions']:
                 if reaction['reaction_id'] not in reaction_counts:
                     reaction_counts[reaction['reaction_id']] = 0
-                reaction_counts[reaction['reaction_id']] = reaction_counts[reaction['reaction_id']] + reaction[
-                    'count']  # Сохраняем в словаре
+                reaction_counts[reaction['reaction_id']] += reaction['count']
     reactions_count_pics = {}
     sorted_reactions = dict(sorted(reaction_counts.items(), key=lambda item: item[1], reverse=True))
     for k, v in sorted_reactions.items():
