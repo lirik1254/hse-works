@@ -1,3 +1,4 @@
+from MessagesByTimeGraph import plot_messages_by_time
 from WordsTop import create_frequency_dict_lemma
 from VKInteraction import get_user_name, PEER_ID, get_messages_for_day
 from TimeUtils import get_unix_time_range_previous_day
@@ -88,6 +89,9 @@ def report_message_prepare():
     )
 
     top_words = "\n".join(f"{medals[i]} {line}" for i, line in enumerate(top_words.splitlines()))
+
+    plot_messages_by_time(messages)
+
     # Удаляем прошедший контекст рандомным вопросом
     get_answer("Какую еду любят в японии?")
 

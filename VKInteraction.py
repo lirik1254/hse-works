@@ -2,6 +2,8 @@ import os
 import time
 import vk_api
 
+from SendGraphsUtils import send_graphic
+
 # Чтобы получить токен VK, зайди https://vkhost.github.io/, выбери VK Admin, далее следуй инструкции на сайте
 # После зайди в системные переменные, добавь новую переменную с названием VK_TOKEN и значением - твоим токеном, перезагрузи среду разработки.
 token = os.getenv("VK_TOKEN")
@@ -66,3 +68,6 @@ def send_report(peer_id):
     time.sleep(1)
 
     vk.messages.send(peer_id=peer_id, message="🏆 Самый часто встречающийся за день стикер", attachment=sticker_attachment, random_id=int(time.time()))
+
+    send_graphic(vk, 'messages_by_time.png', peer_id)  # Используем импортированную функцию
+    time.sleep(1)
