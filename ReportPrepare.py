@@ -2,9 +2,12 @@ from MessagesByTimeGraph import plot_messages_by_time
 from SentimentPredict import predict_sentiment, plot_sentiment_pie_chart
 from WordsTop import create_frequency_dict_lemma
 from VKInteraction import get_user_name, PEER_ID, get_messages_for_day
-from TimeUtils import get_unix_time_range_previous_day
+from Utils.TimeUtils import get_unix_time_range_previous_day
 from AIResponse import get_answer
-from StickerUtils import get_attachment
+from Utils.StickerUtils import get_attachment
+from Utils.ReactionsUtils import reactions_dict
+
+
 def summarize_day(messages):
     """Обрабатывает и составляет краткий пересказ дня."""
     id_name_dict = dict()
@@ -22,10 +25,11 @@ def summarize_day(messages):
         if "Всего сообщений за день" not in msg['text']:
             message_string += f"{author_name}: {msg['text']}\n"
 
-
     word_stats = create_frequency_dict_lemma(" ".join(messages_list))
-    top_words = "\n".join([f"{word}: {count}" for word, count in sorted(word_stats.items(), key = lambda x: x[1], reverse = True)[:10]])
+    top_words = "\n".join(
+        [f"{word}: {count}" for word, count in sorted(word_stats.items(), key=lambda x: x[1], reverse=True)[:10]])
     return message_string, top_words
+
 
 def calculate_user_stats(messages):
     """Собирает статистику по сообщениям пользователей."""
@@ -39,9 +43,10 @@ def calculate_user_stats(messages):
             user_word_count[user_id] = user_word_count.get(user_id, 0) + len(text.split())
             user_message_count[user_id] = user_message_count.get(user_id, 0) + 1
 
-    top_users_by_messages = sorted(user_message_count.items(), key = lambda x: x[1], reverse = True)
-    top_users_by_words = sorted(user_word_count.items(), key = lambda x: x[1], reverse = True)
+    top_users_by_messages = sorted(user_message_count.items(), key=lambda x: x[1], reverse=True)
+    top_users_by_words = sorted(user_word_count.items(), key=lambda x: x[1], reverse=True)
     return top_users_by_messages, top_users_by_words
+
 
 def get_top_sticker_url(messages):
     """Возвращает ссылку на топ-1 стикер"""
@@ -63,14 +68,37 @@ def get_top_sticker_url(messages):
 
     return most_common_url
 
+
 def get_stickers_count(messagse):
     count = 0
     for msg in messagse:
         if len(msg['attachments']) != 0 and msg['attachments'][0].get('sticker'):
             count += 1
     return count
+
+
+def get_reactions_top(messages):
+    reaction_counts = {}
+    count = 0
+    for msg in messages:
+        if 'reactions' in msg:
+            count += sum(reaction['count'] for reaction in msg['reactions'])
+            for reaction in msg['reactions']:
+                if reaction['reaction_id'] not in reaction_counts:
+                    reaction_counts[reaction['reaction_id']] = 0
+                reaction_counts[reaction['reaction_id']] += reaction['count']
+    reactions_count_pics = {}
+    sorted_reactions = dict(sorted(reaction_counts.items(), key=lambda item: item[1], reverse=True))
+    for k, v in sorted_reactions.items():
+        if k in reactions_dict:
+            reactions_count_pics[reactions_dict[k]] = v
+    top_five_reactions = dict(list(reactions_count_pics.items())[:5])
+    return count, top_five_reactions
+
+
 def report_message_prepare():
-    medals = ["🥇", "🥈", "🥉", "     \u2006", "     \u2006", "     \u2006", "     \u2006", "     \u2006", "     \u2006", "     \u2006"]
+    medals = ["🥇", "🥈", "🥉", "     \u2006", "     \u2006", "     \u2006", "     \u2006", "     \u2006", "     \u2006",
+              "     \u2006"]
     """Отправляет отчёт за день."""
     start_time, end_time = get_unix_time_range_previous_day()
     messages = get_messages_for_day(PEER_ID, start_time, end_time)
@@ -80,16 +108,24 @@ def report_message_prepare():
     most_common_sticker_url = get_top_sticker_url(messages)
     sticker_attachment = get_attachment(most_common_sticker_url)
     stickers_count = get_stickers_count(messages)
+    reactions_count, top_five_reactions = get_reactions_top(messages)
 
     total_messages = sum(count for i, count in top_users_by_messages)
     top_users_string = "\n".join(
-        [f"{medals[i]} {get_user_name(user_id)}: {count} сообщений" for i, (user_id, count) in enumerate(top_users_by_messages[:5])]
+        [f"{medals[i]} {get_user_name(user_id)}: {count} сообщений" for i, (user_id, count) in
+         enumerate(top_users_by_messages[:5])]
     )
     top_words_string = "\n".join(
-        [f"{medals[i]} {get_user_name(user_id)}: {count} слов" for i, (user_id, count) in enumerate(top_users_by_words[:5])]
+        [f"{medals[i]} {get_user_name(user_id)}: {count} слов" for i, (user_id, count) in
+         enumerate(top_users_by_words[:5])]
     )
 
     top_words = "\n".join(f"{medals[i]} {line}" for i, line in enumerate(top_words.splitlines()))
+
+    top_five_reactions_string: str = "\n".join(
+        [f"{medals[i]} {key}: {value}" for i, (key, value) in enumerate(top_five_reactions.items())]
+    )
+
 
     plot_messages_by_time(messages)
 
@@ -102,4 +138,5 @@ def report_message_prepare():
     # Получаем
     gpt_summary = get_answer(message_summary)
 
-    return total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment, stickers_count
+    return (total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment,
+            stickers_count, reactions_count, top_five_reactions_string)

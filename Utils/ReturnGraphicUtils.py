@@ -2,7 +2,7 @@ import time
 import vk_api
 
 
-def send_graphic(vk, attachment_path, peer_id):
+def return_graphic(vk, attachment_path):
     """Загружает и отправляет график в VK"""
     upload = vk_api.VkUpload(vk)
 
@@ -10,9 +10,4 @@ def send_graphic(vk, attachment_path, peer_id):
     photo = upload.photo_messages(attachment_path)[0]
     attachment = f"photo{photo['owner_id']}_{photo['id']}"
 
-    # Отправка изображения в беседу
-    vk.messages.send(
-        peer_id=peer_id,
-        attachment=attachment,
-        random_id=int(time.time())
-    )
+    return attachment

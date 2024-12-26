@@ -4,7 +4,7 @@ from VKInteraction import vk
 def download_photo(url):
     response = requests.get(url)
     if response.status_code == 200:
-        with open('sticker.png', 'wb') as file:
+        with open('Photo/sticker.png', 'wb') as file:
             file.write(response.content)
     else:
         print("Не удалось скачать фото")
@@ -12,7 +12,7 @@ def download_photo(url):
 
 def upload_photo_to_server():
     upload_server = vk.photos.getMessagesUploadServer()
-    with open('sticker.png', 'rb') as file:
+    with open('Photo/sticker.png', 'rb') as file:
         upload_response = requests.post(upload_server['upload_url'], files={'photo': file}).json()
         return upload_response
 

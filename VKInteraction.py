@@ -2,14 +2,13 @@ import os
 import time
 import vk_api
 
-from SendGraphsUtils import send_graphic
+from Utils.ReturnGraphicUtils import return_graphic
 
 # Чтобы получить токен VK, зайди https://vkhost.github.io/, выбери VK Admin, далее следуй инструкции на сайте
 # После зайди в системные переменные, добавь новую переменную с названием VK_TOKEN и значением - твоим токеном, перезагрузи среду разработки.
 token = os.getenv("VK_TOKEN")
 
-#PEER_ID = 2000000000 + 234  # ID Беседы ПИ. НЕ ОТПРАВЛЯЙТЕ НИЧЕГО ТУДА, МЕНЯЙТЕ В SEND_REPORT НА ДРУГОЙ ID
-PEER_ID = 2000000000 + 90
+PEER_ID = 2000000000 + 234  # ID Беседы ПИ. НЕ ОТПРАВЛЯЙТЕ НИЧЕГО ТУДА, МЕНЯЙТЕ В SEND_REPORT НА ДРУГОЙ ID
 
 # Инициализация сессии
 vk_session = vk_api.VkApi(token=token)
@@ -55,12 +54,15 @@ def get_user_name(user_id):
 
 def send_report(peer_id):
     from ReportPrepare import report_message_prepare
-    total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment, stickers_count = report_message_prepare()
+    total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment, stickers_count, reactions_count, reactions_top = report_message_prepare()
+    graphic_attachment = return_graphic(vk, "Photo/messages_by_time.png")
     report = (
         f"Всего сообщений за день: {total_messages}\n"
         f"Из них стикеров: {stickers_count}\n\n"
+        f"Всего реакций за день: {reactions_count}\n\n"
         f"🏆 Топ 5 по количеству сообщений:\n{top_users_string}\n\n"
         f"🏆 Топ 5 по количеству слов:\n{top_words_string}\n\n"
+        f"🏆 Топ 5 реакций за день:\n{reactions_top}\n\n"
         f"🏆 Топ 10 слов за день:\n{top_words}\n\n"
         f"🤠 Краткий пересказ, о чем говорили за день:\n\n{gpt_summary}\n\n"
     )
@@ -70,8 +72,3 @@ def send_report(peer_id):
 
     vk.messages.send(peer_id=peer_id, message="🏆 Самый часто встречающийся за день стикер", attachment=sticker_attachment, random_id=int(time.time()))
 
-    send_graphic(vk, 'messages_by_time.png', peer_id)
-    time.sleep(1)
-
-    send_graphic(vk, 'sentiment_pie_chart.png', peer_id)
-    time.sleep(1)
