@@ -1,4 +1,5 @@
 from MessagesByTimeGraph import plot_messages_by_time
+from SentimentPredict import predict_sentiment, plot_sentiment_pie_chart
 from WordsTop import create_frequency_dict_lemma
 from VKInteraction import get_user_name, PEER_ID, get_messages_for_day
 from Utils.TimeUtils import get_unix_time_range_previous_day
@@ -125,8 +126,10 @@ def report_message_prepare():
         [f"{medals[i]} {key}: {value}" for i, (key, value) in enumerate(top_five_reactions.items())]
     )
 
-
     plot_messages_by_time(messages)
+
+    sentiment_counts = predict_sentiment(messages)
+    plot_sentiment_pie_chart(sentiment_counts)
 
     # Удаляем прошедший контекст рандомным вопросом
     get_answer("Какую еду любят в японии?")
