@@ -8,7 +8,8 @@ from SendGraphsUtils import send_graphic
 # После зайди в системные переменные, добавь новую переменную с названием VK_TOKEN и значением - твоим токеном, перезагрузи среду разработки.
 token = os.getenv("VK_TOKEN")
 
-PEER_ID = 2000000000 + 234  # ID Беседы ПИ. НЕ ОТПРАВЛЯЙТЕ НИЧЕГО ТУДА, МЕНЯЙТЕ В SEND_REPORT НА ДРУГОЙ ID
+#PEER_ID = 2000000000 + 234  # ID Беседы ПИ. НЕ ОТПРАВЛЯЙТЕ НИЧЕГО ТУДА, МЕНЯЙТЕ В SEND_REPORT НА ДРУГОЙ ID
+PEER_ID = 2000000000 + 90
 
 # Инициализация сессии
 vk_session = vk_api.VkApi(token=token)
@@ -69,5 +70,8 @@ def send_report(peer_id):
 
     vk.messages.send(peer_id=peer_id, message="🏆 Самый часто встречающийся за день стикер", attachment=sticker_attachment, random_id=int(time.time()))
 
-    send_graphic(vk, 'messages_by_time.png', peer_id)  # Используем импортированную функцию
+    send_graphic(vk, 'messages_by_time.png', peer_id)
+    time.sleep(1)
+
+    send_graphic(vk, 'sentiment_pie_chart.png', peer_id)
     time.sleep(1)
