@@ -1,10 +1,10 @@
 from MessagesByTimeGraph import plot_messages_by_time
 from WordsTop import create_frequency_dict_lemma
 from VKInteraction import get_user_name, PEER_ID, get_messages_for_day
-from TimeUtils import get_unix_time_range_previous_day
+from Utils.TimeUtils import get_unix_time_range_previous_day
 from AIResponse import get_answer
-from StickerUtils import get_attachment
-from ReactionsUtils import reactions_dict
+from Utils.StickerUtils import get_attachment
+from Utils.ReactionsUtils import reactions_dict
 
 
 def summarize_day(messages):
