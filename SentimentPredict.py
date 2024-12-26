@@ -15,7 +15,7 @@ stop_words = set(stopwords.words('russian'))
 lemmatizer = WordNetLemmatizer()
 
 # Загрузка модели
-model = load_model('sentiment_analysis.keras')
+model = load_model('SentimentModel/sentiment_analysis.keras')
 
 # Токенизатор и лейбл-энкодер
 tokenizer = Tokenizer(num_words=5000)  # Используем тот же токенизатор
@@ -58,5 +58,5 @@ def plot_sentiment_pie_chart(sentiment_counts):
     plt.title("Распределение тональностей сообщений за сутки")
 
     # Сохранение графика в файл PNG
-    plt.savefig('sentiment_pie_chart.png')
+    plt.savefig('Photo/sentiment_pie_chart.png')
     plt.close()

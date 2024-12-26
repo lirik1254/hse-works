@@ -9,7 +9,7 @@ from Utils.ReturnGraphicUtils import return_graphic
 token = os.getenv("VK_TOKEN")
 
 PEER_ID = 2000000000 + 234  # ID Беседы ПИ. НЕ ОТПРАВЛЯЙТЕ НИЧЕГО ТУДА, МЕНЯЙТЕ В SEND_REPORT НА ДРУГОЙ ID
-
+#PEER_ID = 2000000000 + 90
 # Инициализация сессии
 vk_session = vk_api.VkApi(token=token)
 vk = vk_session.get_api()
@@ -55,7 +55,8 @@ def get_user_name(user_id):
 def send_report(peer_id):
     from ReportPrepare import report_message_prepare
     total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment, stickers_count, reactions_count, reactions_top = report_message_prepare()
-    graphic_attachment = return_graphic(vk, "Photo/messages_by_time.png")
+    msgs_by_time_attachment = return_graphic(vk, "Photo/messages_by_time.png")
+    sentiment_attachment = return_graphic(vk, "Photo/sentiment_pie_chart.png")
     report = (
         f"Всего сообщений за день: {total_messages}\n"
         f"Из них стикеров: {stickers_count}\n\n"
@@ -70,5 +71,9 @@ def send_report(peer_id):
     vk.messages.send(peer_id=peer_id, message=report, random_id=int(time.time()))
     time.sleep(1)
 
-    vk.messages.send(peer_id=peer_id, message="🏆 Самый часто встречающийся за день стикер", attachment=sticker_attachment, random_id=int(time.time()))
-
+    vk.messages.send(peer_id=peer_id, message="🏆 Самый часто встречающийся за день стикер",
+                     attachment=sticker_attachment, random_id=int(time.time()))
+    vk.messages.send(peer_id=peer_id, message="",
+                     attachment=msgs_by_time_attachment, random_id=int(time.time()))
+    vk.messages.send(peer_id=peer_id, message="",
+                     attachment=sentiment_attachment, random_id=int(time.time()))

@@ -126,7 +126,6 @@ def report_message_prepare():
         [f"{medals[i]} {key}: {value}" for i, (key, value) in enumerate(top_five_reactions.items())]
     )
 
-
     plot_messages_by_time(messages)
 
     sentiment_counts = predict_sentiment(messages)

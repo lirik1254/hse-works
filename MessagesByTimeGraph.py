@@ -37,7 +37,7 @@ def plot_messages_by_time(messages):
     plt.xlabel('Час дня')
     plt.ylabel('Количество сообщений')
     plt.title('Сообщения по времени суток')
-    plt.xticks(range(24))  # Отображаем все часы
+    plt.xticks(range(24))
     plt.tight_layout()
     plt.savefig('Photo/messages_by_time.png')
     plt.close()
