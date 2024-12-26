@@ -77,23 +77,45 @@ def get_stickers_count(messagse):
     return count
 
 
+def get_reactions_for_usernames(reactions_for_user):
+    username_reaction_count_dict = {}
+    for user_id in reactions_for_user.keys():
+        sorted_reactions = dict(sorted(reactions_for_user[user_id].items(), key=lambda item: item[1], reverse=True))
+        reactions_count_pics = {}
+        for k, v in sorted_reactions.items():
+            if k in reactions_dict:
+                reactions_count_pics[reactions_dict[k]] = v
+        username_reaction_count_dict[get_user_name(user_id)] = reactions_count_pics
+    sorted_by_reactions_count_username = dict(sorted(username_reaction_count_dict.items(), key=lambda item: sum(
+        reactions_count for reactions_count in item[1].values()), reverse=True))
+    return dict(list(sorted_by_reactions_count_username.items())[:5])
+
+
 def get_reactions_top(messages):
     reaction_counts = {}
     count = 0
+    user_messages_reactions = {}
     for msg in messages:
         if 'reactions' in msg:
-            count += sum(reaction['count'] for reaction in msg['reactions'])
+            if msg['from_id'] not in user_messages_reactions:
+                user_messages_reactions[msg['from_id']] = {}
+            reaction_on_msg_count = sum(reaction['count'] for reaction in msg['reactions'])
+            count += reaction_on_msg_count
             for reaction in msg['reactions']:
                 if reaction['reaction_id'] not in reaction_counts:
                     reaction_counts[reaction['reaction_id']] = 0
                 reaction_counts[reaction['reaction_id']] += reaction['count']
+                if reaction['reaction_id'] not in user_messages_reactions[msg['from_id']]:
+                    user_messages_reactions[msg['from_id']][reaction['reaction_id']] = 0
+                user_messages_reactions[msg['from_id']][reaction['reaction_id']] += reaction['count']
     reactions_count_pics = {}
     sorted_reactions = dict(sorted(reaction_counts.items(), key=lambda item: item[1], reverse=True))
     for k, v in sorted_reactions.items():
         if k in reactions_dict:
             reactions_count_pics[reactions_dict[k]] = v
     top_five_reactions = dict(list(reactions_count_pics.items())[:5])
-    return count, top_five_reactions
+    username_top_five_for_reactions_count = get_reactions_for_usernames(user_messages_reactions)
+    return count, top_five_reactions, username_top_five_for_reactions_count
 
 
 def report_message_prepare():
@@ -108,7 +130,7 @@ def report_message_prepare():
     most_common_sticker_url = get_top_sticker_url(messages)
     sticker_attachment = get_attachment(most_common_sticker_url)
     stickers_count = get_stickers_count(messages)
-    reactions_count, top_five_reactions = get_reactions_top(messages)
+    reactions_count, top_five_reactions, username_top_five_for_reactions_count = get_reactions_top(messages)
 
     total_messages = sum(count for i, count in top_users_by_messages)
     top_users_string = "\n".join(
@@ -125,6 +147,11 @@ def report_message_prepare():
     top_five_reactions_string: str = "\n".join(
         [f"{medals[i]} {key}: {value}" for i, (key, value) in enumerate(top_five_reactions.items())]
     )
+    username_top_five_for_reactions_count_string: str = "\n".join(
+        [
+            f"{medals[i]} {user}: {sum(reactions.values())} \n{medals[3]}{', '.join([f'{emoji}: {num}' for emoji, num in reactions.items()])}\n"
+            for i, (user, reactions) in enumerate(username_top_five_for_reactions_count.items())]
+    )
 
     plot_messages_by_time(messages)
 
@@ -138,4 +165,4 @@ def report_message_prepare():
     gpt_summary = get_answer(message_summary)
 
     return (total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment,
-            stickers_count, reactions_count, top_five_reactions_string)
+            stickers_count, reactions_count, top_five_reactions_string, username_top_five_for_reactions_count_string)
