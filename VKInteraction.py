@@ -15,7 +15,6 @@ vk_session = vk_api.VkApi(token=token)
 vk = vk_session.get_api()
 
 
-
 # Функция для получения сообщений за сутки
 def get_messages_for_day(peer_id, start_time, end_time):
     messages = []
@@ -24,9 +23,9 @@ def get_messages_for_day(peer_id, start_time, end_time):
 
     while True:
         response = vk.messages.getHistory(
-            peer_id = peer_id,
-            count = count,
-            offset = offset
+            peer_id=peer_id,
+            count=count,
+            offset=offset
         )
 
         # Добавляем полученные сообщения в список
@@ -48,18 +47,20 @@ def get_messages_for_day(peer_id, start_time, end_time):
 def get_user_name(user_id):
     if user_id < 0:  # Если ID отрицательный, это группа
         return f"Группа {abs(user_id)}"
-    user_info = vk.users.get(user_ids = user_id)[0]
+    user_info = vk.users.get(user_ids=user_id)[0]
     return f"{user_info['first_name']} {user_info['last_name']}"
 
 
 def send_report(peer_id):
     from ReportPrepare import report_message_prepare
-    total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment, stickers_count = report_message_prepare()
+    total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment, stickers_count, reactions_count, reactions_top = report_message_prepare()
     report = (
         f"Всего сообщений за день: {total_messages}\n"
         f"Из них стикеров: {stickers_count}\n\n"
+        f"Всего реакций за день: {reactions_count}\n\n"
         f"🏆 Топ 5 по количеству сообщений:\n{top_users_string}\n\n"
         f"🏆 Топ 5 по количеству слов:\n{top_words_string}\n\n"
+        f"🏆 Топ 5 реакций за день:\n{reactions_top}\n\n"
         f"🏆 Топ 10 слов за день:\n{top_words}\n\n"
         f"🤠 Краткий пересказ, о чем говорили за день:\n\n{gpt_summary}\n\n"
     )
@@ -67,7 +68,8 @@ def send_report(peer_id):
     vk.messages.send(peer_id=peer_id, message=report, random_id=int(time.time()))
     time.sleep(1)
 
-    vk.messages.send(peer_id=peer_id, message="🏆 Самый часто встречающийся за день стикер", attachment=sticker_attachment, random_id=int(time.time()))
+    vk.messages.send(peer_id=peer_id, message="🏆 Самый часто встречающийся за день стикер",
+                     attachment=sticker_attachment, random_id=int(time.time()))
 
     send_graphic(vk, 'messages_by_time.png', peer_id)  # Используем импортированную функцию
     time.sleep(1)
