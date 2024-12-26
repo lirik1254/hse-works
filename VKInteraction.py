@@ -52,13 +52,14 @@ def get_user_name(user_id):
 
 def send_report(peer_id):
     from ReportPrepare import report_message_prepare
-    total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment, stickers_count, reactions_count, reactions_top = report_message_prepare()
+    total_messages, top_users_string, top_words_string, top_words, gpt_summary, sticker_attachment, stickers_count, reactions_count, reactions_top, username_top_five_for_reactions_count_string = report_message_prepare()
     report = (
         f"Всего сообщений за день: {total_messages}\n"
         f"Из них стикеров: {stickers_count}\n\n"
         f"Всего реакций за день: {reactions_count}\n\n"
         f"🏆 Топ 5 по количеству сообщений:\n{top_users_string}\n\n"
         f"🏆 Топ 5 по количеству слов:\n{top_words_string}\n\n"
+        f"🏆 Топ 5 по количеству полученных реакций:\n{username_top_five_for_reactions_count_string}\n\n"
         f"🏆 Топ 5 реакций за день:\n{reactions_top}\n\n"
         f"🏆 Топ 10 слов за день:\n{top_words}\n\n"
         f"🤠 Краткий пересказ, о чем говорили за день:\n\n{gpt_summary}\n\n"
