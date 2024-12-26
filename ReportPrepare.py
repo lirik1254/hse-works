@@ -84,18 +84,14 @@ def get_reactions_for_usernames(reactions_for_user):
             if k in reactions_dict:
                 reactions_count_pics[reactions_dict[k]] = v
         username_reaction_count_dict[get_user_name(user_id)] = reactions_count_pics
-    sorted_by_reactions_count_username = dict(sorted(username_reaction_count_dict.items(), key=lambda item : sum(reactions_count for reactions_count in item[1].values()), reverse=True))
+    sorted_by_reactions_count_username = dict(sorted(username_reaction_count_dict.items(), key=lambda item: sum(
+        reactions_count for reactions_count in item[1].values()), reverse=True))
     return dict(list(sorted_by_reactions_count_username.items())[:5])
 
 
 def get_reactions_top(messages):
     reaction_counts = {}
     count = 0
-    for msg in messages:
-        if 'reactions' in msg:
-            print(msg['reactions'])
-            print(get_user_name(msg['from_id']))
-            break
     user_messages_reactions = {}
     for msg in messages:
         if 'reactions' in msg:
@@ -117,7 +113,6 @@ def get_reactions_top(messages):
             reactions_count_pics[reactions_dict[k]] = v
     top_five_reactions = dict(list(reactions_count_pics.items())[:5])
     username_top_five_for_reactions_count = get_reactions_for_usernames(user_messages_reactions)
-    print(username_top_five_for_reactions_count)
     return count, top_five_reactions, username_top_five_for_reactions_count
 
 
@@ -152,8 +147,9 @@ def report_message_prepare():
     )
 
     username_top_five_for_reactions_count_string: str = "\n".join(
-    [f"{user}: {sum(reactions.values())} (Реакции: {', '.join([f'{emoji}: {num}' for emoji, num in reactions.items()])})"
-     for user, reactions in username_top_five_for_reactions_count.items()]
+        [
+            f"{medals[i]} {user}: {sum(reactions.values())} \n{medals[3]}{', '.join([f'{emoji}: {num}' for emoji, num in reactions.items()])}\n"
+            for i, (user, reactions) in enumerate(username_top_five_for_reactions_count.items())]
     )
 
     # Удаляем прошедший контекст рандомным вопросом
