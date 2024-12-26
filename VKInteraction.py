@@ -73,7 +73,12 @@ def send_report(peer_id):
 
     vk.messages.send(peer_id=peer_id, message="🏆 Самый часто встречающийся за день стикер",
                      attachment=sticker_attachment, random_id=int(time.time()))
+    time.sleep(1)
+
     vk.messages.send(peer_id=peer_id, message="",
                      attachment=msgs_by_time_attachment, random_id=int(time.time()))
+    time.sleep(1)
+
     vk.messages.send(peer_id=peer_id, message="",
                      attachment=sentiment_attachment, random_id=int(time.time()))
+    time.sleep(1)
