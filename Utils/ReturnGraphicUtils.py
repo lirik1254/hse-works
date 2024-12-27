@@ -1,4 +1,3 @@
-import time
 import vk_api
 
 
