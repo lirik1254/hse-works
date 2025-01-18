@@ -247,3 +247,11 @@ fabric.properties
 
 # PyPI configuration file
 .pypirc
+
+# AlgoPath environment variables
+envs/*
+!envs/.env.example
+!envs/.env.local
+
+# AlgoPath media files
+media/*
