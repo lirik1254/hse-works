@@ -38,6 +38,7 @@ ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1').split(' ')
 # Application definition
 
 INSTALLED_APPS = [
+    'custom_auth',
     'articles',
     'codeforces',
     'news',
@@ -66,8 +67,7 @@ ROOT_URLCONF = 'algopath.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -148,3 +148,17 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ),
 }
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = 'fspmailsender@yandex.ru'
+EMAIL_HOST_PASSWORD = 'yyhlkenfihguvkca'
+DEFAULT_FROM_EMAIL = 'fspmailsender@yandex.ru'
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Обработчик по умолчанию
+]

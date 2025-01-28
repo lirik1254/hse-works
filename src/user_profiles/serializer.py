@@ -14,7 +14,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def get_codeforces_rating(self, obj):
         if obj.codeforces_handle:
             codeforces_data = get_user_dict(obj.codeforces_handle)
-            return codeforces_data['rating']
+            if 'rating' in codeforces_data:
+                return codeforces_data['rating']
+            else:
+                return 'Не в рейтинге'
         return None
 
 
