@@ -23,5 +23,6 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/codeforces/', include('codeforces.urls')),
-    path('api/users/', include('user_profiles.urls'))
+    path('api/users/', include('user_profiles.urls')),
+    path('api/', include('custom_auth.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_URL)
