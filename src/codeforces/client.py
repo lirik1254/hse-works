@@ -8,7 +8,6 @@ def get_user_info(github_handle):
     """
     url = f"https://codeforces.com/api/user.info?handles={github_handle}&checkHistoricHandles=false"
     response = requests.get(url)
-    print(response.json())
     return response.json()
 
 
