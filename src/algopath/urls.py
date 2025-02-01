@@ -15,14 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.urls import path
 from django.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
+    path('', lambda request: redirect('/api/pages/main', permanent=True), name='home'),
     path('admin/', admin.site.urls),
     path('api/codeforces/', include('codeforces.urls')),
     path('api/users/', include('user_profiles.urls')),
-    path('api/', include('custom_auth.urls'))
+    path('api/', include('custom_auth.urls')),
+    path('api/pages/', include('static_pages.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_URL)

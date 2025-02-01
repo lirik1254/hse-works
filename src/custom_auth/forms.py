@@ -1,11 +1,11 @@
-from django.contrib.auth.forms import UserCreationForm
+import re
+
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from user_profiles.models import UserProfile
-from django.core.mail import send_mail
-from django.conf import settings
-from .utils.token import generate_confirmation_link
 import socket
 from django import forms
 from django.contrib.auth.models import User
+from codeforces.client import get_user_info
 
 socket.getfqdn = lambda *args: "localhost"
 
@@ -21,29 +21,48 @@ class RegistrationForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name']
 
-    def save(self, commit=True, request=None):
-        user = super().save(commit=False)
-        user.email = self.cleaned_data['email']
-        user.is_active = False
+    # def clean_email(self):
+    #     """Проверка уникальности email."""
+    #     email = self.cleaned_data.get('email')
+    #     if User.objects.filter(email=email).exists():
+    #         raise forms.ValidationError("Этот email уже зарегистрирован.")
+    #     return email
 
-        if commit:
-            user.save()
+    def clean_username(self):
+        """Проверка уникальности ника."""
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("Этот ник уже занят.")
+        return username
 
-            # Создаем профиль пользователя
-            profile = UserProfile.objects.create(
-                user=user,
-                university_group=self.cleaned_data['university_group'],
-                codeforces_handle=self.cleaned_data.get('codeforces_handle'),
-            )
-            profile.save()
+    def clean_codeforces_handle(self):
+        """Проверка уникальности Codeforces handle."""
+        codeforces_handle = self.cleaned_data.get('codeforces_handle')
+        if codeforces_handle and UserProfile.objects.filter(codeforces_handle=codeforces_handle).exists():
+            raise forms.ValidationError("Этот Codeforces handle уже зарегистрирован в системе")
+        if get_user_info(codeforces_handle)['status'] == 'FAILED':
+            raise forms.ValidationError("Такой аккаунт не зарегистрирован на codeforces")
+        return codeforces_handle
 
-            # Создаем и отправляем токен подтверждения на почту
-            confirmation_link = generate_confirmation_link(user)
-            subject = "Подтверждение регистрации"
-            message = (f"Привет, {user.username}!\n\nПожалуйста, подтвердите вашу почту,"
-                       f" перейдя по ссылке:\n{confirmation_link}")
-            send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
+    def get_user_data(self):
+        """Возвращает данные пользователя без сохранения в БД"""
+        return {
+            "username": self.cleaned_data["username"],
+            "email": self.cleaned_data["email"],
+            "password": self.cleaned_data["password1"],  # Пароль зашифруем позже
+            "first_name": self.cleaned_data["first_name"],
+            "last_name": self.cleaned_data["last_name"],
+            "university_group": self.cleaned_data["university_group"],
+            "codeforces_handle": self.cleaned_data.get("codeforces_handle"),
+        }
 
-        return user
 
-
+class CustomAuthenticationForm(forms.Form):
+    username = forms.CharField(
+        label="Имя пользователя или Email",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите имя пользователя или email'})
+    )
+    password = forms.CharField(
+        label="Пароль",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Введите пароль'})
+    )

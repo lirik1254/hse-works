@@ -1,6 +1,16 @@
-from .forms import RegistrationForm
+import re
+
+from django.contrib.auth.views import PasswordResetCompleteView, PasswordResetDoneView
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
+from django.urls import reverse
+
+from django.conf import settings
+from django.utils.encoding import force_bytes, force_str
+
+from .forms import RegistrationForm, CustomAuthenticationForm
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
@@ -10,84 +20,123 @@ from django.contrib import messages
 from user_profiles.models import UserProfile
 from django.contrib.auth.models import User
 
+from .utils.token import generate_token, decode_token
+
 
 def register(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save(request=request)  # Сохраняем пользователя и профиль
-            messages.success(request, 'Подтвердите почту')
-            return redirect('login')  # Перенаправляем на страницу входа (или другую)
+            user_data = form.get_user_data()  # Получаем данные без сохранения в БД
+
+            # Генерируем токен с данными пользователя
+            token = generate_token(user_data)
+
+            # Формируем ссылку подтверждения
+            uidb64 = urlsafe_base64_encode(force_bytes(user_data["email"]))
+            confirmation_link = request.build_absolute_uri(
+                reverse("confirm_email", kwargs={"uidb64": uidb64, "token": token})
+            )
+
+            # Отправляем письмо с подтверждением
+            subject = "Подтверждение регистрации"
+            message = (f"Привет, {user_data['username']}\n\n"
+                       f"Благодарим вас за регистрацию на сайте факультета спортивного"
+                       f" программирования г. Перми!\n\n"
+                       f"Для того, чтобы попасть на сайт, подтвердите регистрацию:\n{confirmation_link}\n\n"
+                       f"С уважением, команда ФСП")
+            send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user_data["email"]])
+
+            messages.success(request, "Письмо с подтверждением отправлено. Проверьте почту.")
+            return redirect("login")
+
         else:
-            messages.error(request, 'Ошибка в данных формы.')
+            messages.error(request, "Ошибка в данных формы.")
     else:
         form = RegistrationForm()
 
-    return render(request, 'custom_auth/register.html', {'form': form})
+    return render(request, "custom_auth/register.html", {"form": form})
 
 
 def confirm_email(request, uidb64, token):
     try:
-        uid = urlsafe_base64_decode(uidb64).decode()
-        user = get_object_or_404(User, pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
+        email = force_str(urlsafe_base64_decode(uidb64))
+    except (TypeError, ValueError, OverflowError):
+        return HttpResponse("Ошибка в ссылке подтверждения.")
 
-    if user is not None and default_token_generator.check_token(user, token):
-        user.is_active = True
-        user.save()
-        user.userprofile.email_confirmed = True
-        user.userprofile.save()
+    user_data = decode_token(token)
+    if not user_data or user_data["email"] != email:
+        return HttpResponse("Ссылка недействительна.")
 
-        messages.success(request, "Почта успешно подтверждена.")
-        return redirect('login')
-    else:
-        return HttpResponse("Ссылка недействительна или устарела.")
+    # Создаем пользователя
+    user = User.objects.create_user(
+        username=user_data["username"],
+        email=user_data["email"],
+        password=user_data["password"],
+        first_name=user_data["first_name"],
+        last_name=user_data["last_name"]
+    )
+    print(user)
+
+    # Создаем профиль пользователя
+    UserProfile.objects.create(
+        user=user,
+        university_group=user_data["university_group"],
+        codeforces_handle=user_data["codeforces_handle"],
+    )
+
+    messages.success(request, "Регистрация подтверждена! Теперь вы можете войти.")
+    return redirect("login")
 
 
 def custom_login(request):
     if request.method == 'POST':
-        # Сначала пытаемся аутентифицировать пользователя по данным из POST
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        # Пытаемся аутентифицировать пользователя
-        user = authenticate(request, username=username, password=password)
+        form = CustomAuthenticationForm(request.POST)
 
-        if user is not None:
-            print(f"User {username} authenticated successfully.")
-            # Теперь создаем форму и проверяем ее на валидность
-            form = AuthenticationForm(data=request.POST)
-            if form.is_valid():
-                # Если форма валидна, проверяем профиль пользователя
+        if form.is_valid():
+            identifier = form.cleaned_data.get('username')  # Может быть email или username
+            password = form.cleaned_data.get('password')
+            # Проверяем, является ли введённое значение email'ом
+            if re.match(r"[^@]+@[^@]+\.[^@]+", identifier):
                 try:
-                    user_profile = UserProfile.objects.get(user=user)
-                    print(user_profile)
-                    if user_profile.email_confirmed:
-                        login(request, user)
-                        return redirect('home')  # Редирект на главную страницу
-                    else:
-                        messages.error(request, "Пожалуйста, подтвердите ваш email.")
-                        return redirect('login')  # Страница логина
-                except UserProfile.DoesNotExist:
-                    messages.error(request, "Профиль пользователя не найден.")
-                    return redirect('login')  # Страница логина
+                    user = User.objects.get(email=identifier)
+                    username = user.username  # Используем username для аутентификации
+                except User.DoesNotExist:
+                    messages.error(request, "Пользователь не зарегистрирован или email не подтвержден")
+                    return redirect('login')
             else:
-                print(form.errors)
-                messages.error(request, "Пожалуйста, исправьте ошибки в форме.")
-                return redirect('login')  # Страница логина
-        else:
-            # Если аутентификация не удалась, выводим ошибку
-            print("Authentication failed.")
-            messages.error(request, "Неверный логин или пароль.")
-            return redirect('login')  # Страница логина
+                username = identifier  # Используем введённый username
+
+            # Проверяем, существует ли пользователь в БД
+            try:
+                User.objects.get(username=username)
+            except User.DoesNotExist:
+                messages.error(request, "Пользователь не зарегистрирован или email не подтвержден")
+                return redirect('login')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('main')
+            else:
+                messages.error(request, "Неверный логин или пароль.")
+                return redirect('login')
 
     else:
-        form = AuthenticationForm()
+        form = CustomAuthenticationForm()
 
     return render(request, 'custom_auth/login.html', {'form': form})
 
 
-def home(request):
-    user = User.objects.get(username='test')  # Замените на актуальное имя пользователя
-    print(user.check_password('kukukuku'))
-    return render(request, 'custom_auth/home.html')
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    def get(self, request, *args, **kwargs):
+        messages.success(request, "Регистрация подтверждена! Теперь вы можете войти.")
+        return redirect('login')  #
+
+
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    def get(self, request, *args, **kwargs):
+        messages.success(request, "Письмо с подтверждением отправлено. Проверьте почту.")
+        # Редиректим пользователя на страницу логина после того, как email был отправлен
+        return redirect('login')  # Указываем URL для страницы логина

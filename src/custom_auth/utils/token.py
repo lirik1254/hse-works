@@ -1,9 +1,23 @@
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
+import jwt
+from django.conf import settings
+from datetime import datetime, timedelta
+
+SECRET_KEY = settings.SECRET_KEY  # Берем секретный ключ Django
 
 
-def generate_confirmation_link(user):
-    uid = urlsafe_base64_encode(force_bytes(user.pk))
-    token = default_token_generator.make_token(user)
-    return f"http://127.0.0.1:8000/api/confirm-email/{uid}/{token}/"
+def generate_token(data):
+    """Создает токен с данными пользователя (не в БД)"""
+    payload = {
+        "user_data": data,
+        "exp": datetime.utcnow() + timedelta(hours=24),  # Токен истекает через 24 часа
+    }
+    return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+
+
+def decode_token(token):
+    """Декодирует токен и возвращает данные пользователя"""
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        return payload["user_data"]
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+        return None
