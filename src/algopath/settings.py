@@ -14,6 +14,8 @@ from pathlib import Path
 
 import os
 from dotenv import load_dotenv
+from celery.schedules import crontab
+
 
 current_dir = Path(os.getcwd()).parent
 
@@ -38,6 +40,7 @@ ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1').split(' ')
 # Application definition
 
 INSTALLED_APPS = [
+    'django_celery_beat',
     'custom_auth',
     'articles',
     'codeforces',
@@ -65,6 +68,20 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'algopath.urls'
 
 LOGOUT_REDIRECT_URL = '/api/pages/main'
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
 
 TEMPLATES = [
     {
