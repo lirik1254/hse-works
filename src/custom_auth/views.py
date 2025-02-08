@@ -1,3 +1,4 @@
+import json
 import re
 
 from django.contrib.auth.views import PasswordResetCompleteView, PasswordResetDoneView
@@ -19,8 +20,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from user_profiles.models import UserProfile
 from django.contrib.auth.models import User
+from codeforces.service import get_user_dict
+import redis
+from .tasks import refresh_cf_data
 
 from .utils.token import generate_token, decode_token
+
+redis_client = redis.Redis.from_url(settings.CACHES["default"]["LOCATION"], decode_responses=True)
 
 
 def register(request):
@@ -84,6 +90,12 @@ def confirm_email(request, uidb64, token):
         university_group=user_data["university_group"],
         codeforces_handle=user_data["codeforces_handle"],
     )
+
+    handle = user_data['codeforces_handle']
+    redis_client.set(handle,
+                     json.dumps(get_user_dict(handle)))
+
+    refresh_cf_data.apply_async((handle,), countdown=86400)
 
     messages.success(request, "Регистрация подтверждена! Теперь вы можете войти.")
     return redirect("login")
