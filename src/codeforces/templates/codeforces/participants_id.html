@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Информация о пользователе: {{ user_data.user_firstname }} {{ user_data.user_lastname }}</title>
+</head>
+<body>
+    <h1>Информация о пользователе: {{ user_data.user_firstname }} {{ user_data.user_lastname }}</h1>
+
+    <div>
+        <p><strong>Имя:</strong> {% if user_data.user_firstname %}{{ user_data.user_firstname }}{% else %}-{% endif %}</p>
+        <p><strong>Фамилия:</strong> {% if user_data.user_lastname %}{{ user_data.user_lastname }}{% else %}-{% endif %}</p>
+        <p><strong>Дата регистрации:</strong> {% if user_data.user_registration %}{{ user_data.user_registration }}{% else %}-{% endif %}</p>
+        <p><strong>Последний вход:</strong> {% if user_data.user_last_seen %}{{ user_data.user_last_seen }}{% else %}-{% endif %}</p>
+
+        <p><strong>Биография:</strong> {% if user_data.user_bio %}{{ user_data.user_bio }}{% else %}-{% endif %}</p>
+        <p><strong>Группа университета:</strong> {% if user_data.user_university_group %}{{ user_data.user_university_group }}{% else %}-{% endif %}</p>
+    </div>
+
+    <h2>Информация о Codeforces</h2>
+
+    {% if cf_data %}
+        <div>
+            <img src="{{ cf_data.title_photo }}" alt="Фото пользователя Codeforces" style="width: 200px; height: 200px;">
+        </div>
+
+        <p><strong>Ник на Codeforces:</strong> {% if user_data.codeforces_handle %}{{ user_data.codeforces_handle }}{% else %}-{% endif %}</p>
+        <p><strong>Текущий ранг:</strong> {% if cf_data.rank %}{{ cf_data.rank }}{% else %}-{% endif %}</p>
+        <p><strong>Максимальный ранг:</strong> {% if cf_data.max_rank %}{{ cf_data.max_rank }}{% else %}-{% endif %}</p>
+        <p><strong>Текущий рейтинг:</strong> {% if cf_data.rating %}{{ cf_data.rating }}{% else %}-{% endif %}</p>
+        <p><strong>Максимальный рейтинг:</strong> {% if cf_data.max_rating %}{{ cf_data.max_rating }}{% else %}-{% endif %}</p>
+        <p><strong>Количество друзей:</strong> {% if cf_data.friend_count %}{{ cf_data.friend_count }}{% else %}-{% endif %}</p>
+        <p><strong>Организация:</strong> {% if cf_data.organization %}{{ cf_data.organization }}{% else %}-{% endif %}</p>
+        <p><strong>Дата регистрации:</strong> {% if cf_data.registration_date %}{{ cf_data.registration_date }}{% else %}-{% endif %}</p>
+    {% else %}
+        <p>Информация о пользователе на Codeforces не найдена.</p>
+    {% endif %}
+
+    <a href="/api/codeforces/participants/">Назад</a>
+</body>
+</html>
