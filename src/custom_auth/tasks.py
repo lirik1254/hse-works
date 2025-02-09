@@ -1,4 +1,6 @@
 import json
+import time
+
 import redis
 from celery import shared_task
 from django.conf import settings
@@ -15,4 +17,5 @@ def refresh_cf_data(handle):
     print(cf_data)
     redis_client.set(handle, json.dumps(cf_data))
     refresh_cf_data.apply_async((handle,), countdown=86400)
+    time.sleep(2)
 

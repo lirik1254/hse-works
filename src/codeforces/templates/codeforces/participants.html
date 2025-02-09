@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Участники</title>
+</head>
+<body>
+    <h1>Список зарегистрированных пользователей</h1>
+
+    <ul>
+        {% for participant in participants_data %}
+            <li>
+                <a href="/api/codeforces/participants/{{ participant.username }}">
+                    {{ participant.username }}{% if participant.codeforces_handle %} ({{ participant.codeforces_handle }}){% endif %}
+                </a>
+                {% if participant.rating != "-" %}
+                    - Рейтинг: {{ participant.rating }}
+                {% else %}
+                    - Рейтинг: Не доступен
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Нет зарегистрированных пользователей</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">Назад</a>
+</body>
+</html>
+
