@@ -25,7 +25,7 @@ urlpatterns = [
     path('', lambda request: redirect('/api/pages/main', permanent=True), name='home'),
     path('admin/', admin.site.urls),
     path('api/codeforces/', include('codeforces.urls')),
-    path('api/users/', include('user_profiles.urls')),
     path('api/', include('custom_auth.urls')),
-    path('api/pages/', include('static_pages.urls'))
+    path('api/pages/', include('static_pages.urls')),
+    path('api/userprofile', include('user_profiles.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_URL)

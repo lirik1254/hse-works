@@ -10,4 +10,3 @@ def get_user_info(github_handle):
     response = requests.get(url)
     return response.json()
 
-
