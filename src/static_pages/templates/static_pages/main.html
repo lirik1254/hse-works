@@ -11,6 +11,7 @@
         <div>
             <a href="/api/codeforces/participants" style="margin-right: 10px; display: inline-block;">Участники</a> <!-- Кнопка "Участники" всегда видна -->
             {% if user.is_authenticated %}
+             <a href="/api/userprofile" style="margin-right: 10px; display: inline-block;">Профиль</a>
               <form action="/api/logout" method="post">
                 {% csrf_token %}
                 <button type="submit" style="margin-right: 10px; display: inline-block;">Выйти</button>

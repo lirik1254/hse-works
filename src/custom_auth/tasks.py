@@ -4,6 +4,7 @@ import time
 import redis
 from celery import shared_task
 from django.conf import settings
+from random import randint
 
 from codeforces.service import get_user_dict
 
@@ -16,6 +17,7 @@ def refresh_cf_data(handle):
     cf_data = get_user_dict(handle)
     print(cf_data)
     redis_client.set(handle, json.dumps(cf_data))
+    time.sleep(randint(10, 1000))
     refresh_cf_data.apply_async((handle,), countdown=86400)
-    time.sleep(2)
+
 

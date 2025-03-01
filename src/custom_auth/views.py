@@ -92,10 +92,10 @@ def confirm_email(request, uidb64, token):
     )
 
     handle = user_data['codeforces_handle']
-    redis_client.set(handle,
-                     json.dumps(get_user_dict(handle)))
-
-    refresh_cf_data.apply_async((handle,), countdown=86400)
+    if handle:
+        redis_client.set(handle, json.dumps(get_user_dict(handle)))
+        task = refresh_cf_data.apply_async((handle,), countdown=86400)
+        redis_client.set(f"cf_task_{handle}", task.id)
 
     messages.success(request, "Регистрация подтверждена! Теперь вы можете войти.")
     return redirect("login")

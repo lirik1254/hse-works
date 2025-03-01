@@ -1,0 +1,106 @@
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+
+    <label for="id_username"><strong>Имя пользователя:</strong></label>
+    {{ user_form.username }}
+    {% if user_form.username.errors %}
+        <ul style="color: red;">
+            {% for error in user_form.username.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <br>
+
+    <label for="id_first_name"><strong>Имя:</strong></label>
+    {{ user_form.first_name }}
+    {% if user_form.first_name.errors %}
+        <ul style="color: red;">
+            {% for error in user_form.first_name.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <br>
+
+    <label for="id_last_name"><strong>Фамилия:</strong></label>
+    {{ user_form.last_name }}
+    {% if user_form.last_name.errors %}
+        <ul style="color: red;">
+            {% for error in user_form.last_name.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <br>
+
+    <h2>Дополнительная информация</h2>
+
+    <label for="id_bio"><strong>О себе:</strong></label>
+    {{ profile_form.bio }}
+    {% if profile_form.bio.errors %}
+        <ul style="color: red;">
+            {% for error in profile_form.bio.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <br>
+
+    <label for="id_university_group"><strong>Учебная группа:</strong></label>
+    {{ profile_form.university_group }}
+    {% if profile_form.university_group.errors %}
+        <ul style="color: red;">
+            {% for error in profile_form.university_group.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <br>
+
+    <label for="id_codeforces_handle"><strong>Codeforces Handle:</strong></label>
+    {{ profile_form.codeforces_handle }}
+    {% if profile_form.codeforces_handle.errors %}
+        <ul style="color: red;">
+            {% for error in profile_form.codeforces_handle.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <br>
+
+    <button type="submit">Сохранить</button>
+</form>
+<br>
+<br>
+Как меня видят на кодфорсе
+<br>
+<br>
+{% if cf_data %}
+        <div>
+            <img src="{{ cf_data.title_photo }}" alt="Фото пользователя Codeforces" style="width: 200px; height: 200px;">
+        </div>
+
+        <p><strong>Ник на Codeforces:</strong> {% if user_data.codeforces_handle %}{{ user_data.codeforces_handle }}{% else %}-{% endif %}</p>
+        <p><strong>Текущий ранг:</strong> {% if cf_data.rank %}{{ cf_data.rank }}{% else %}-{% endif %}</p>
+        <p><strong>Максимальный ранг:</strong> {% if cf_data.max_rank %}{{ cf_data.max_rank }}{% else %}-{% endif %}</p>
+        <p><strong>Текущий рейтинг:</strong> {% if cf_data.rating %}{{ cf_data.rating }}{% else %}-{% endif %}</p>
+        <p><strong>Максимальный рейтинг:</strong> {% if cf_data.max_rating %}{{ cf_data.max_rating }}{% else %}-{% endif %}</p>
+        <p><strong>Количество друзей:</strong> {% if cf_data.friend_count %}{{ cf_data.friend_count }}{% else %}-{% endif %}</p>
+        <p><strong>Организация:</strong> {% if cf_data.organization %}{{ cf_data.organization }}{% else %}-{% endif %}</p>
+        <p><strong>Дата регистрации:</strong> {% if cf_data.registration_date %}{{ cf_data.registration_date }}{% else %}-{% endif %}</p>
+    {% else %}
+        <p>Информация о пользователе на Codeforces не найдена.</p>
+    {% endif %}
+
+<a href="/api/pages/main" class="btn btn-secondary">Назад</a>
