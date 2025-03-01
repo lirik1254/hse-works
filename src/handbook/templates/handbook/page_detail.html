@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }}</title>
+</head>
+<body>
+<h1>{{ page.title }}</h1>
+<div>{{ page.content|safe }}</div>
+<a href="{% url 'section_detail' page.sections.first.slug %}">< Вернуться в раздел</a>
+</body>
+</html>

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'articles',
     'codeforces',
     'news',
+    'handbook',
     'static_pages',
     'django.contrib.admin',
     'django.contrib.auth',
