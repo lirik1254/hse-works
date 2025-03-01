@@ -14,8 +14,6 @@ from pathlib import Path
 
 import os
 from dotenv import load_dotenv
-from celery.schedules import crontab
-
 
 current_dir = Path(os.getcwd()).parent
 
@@ -23,7 +21,6 @@ ENV_PATH = current_dir / 'envs' / '.env.local'
 load_dotenv(dotenv_path=ENV_PATH)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -36,10 +33,10 @@ DEBUG = bool(os.environ.get('DJANGO_DEBUG', default=False))
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1').split(' ')
 
-
 # Application definition
 
 INSTALLED_APPS = [
+    'tinymce',
     'django_celery_beat',
     'custom_auth',
     'articles',
@@ -67,7 +64,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'algopath.urls'
 
-LOGOUT_REDIRECT_URL = '/api/pages/main'
+LOGOUT_REDIRECT_URL = '/home'
 
 CACHES = {
     "default": {
@@ -101,7 +98,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'algopath.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -115,7 +111,6 @@ DATABASES = {
         'PORT': os.environ.get('DJANGO_DATABASE_PORT', '')
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -135,7 +130,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -146,7 +140,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -177,7 +170,17 @@ EMAIL_HOST_USER = 'fspmailsender@yandex.ru'
 EMAIL_HOST_PASSWORD = 'yyhlkenfihguvkca'
 DEFAULT_FROM_EMAIL = 'fspmailsender@yandex.ru'
 
-
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Обработчик по умолчанию
 ]
+
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 500,
+    'width': '100%',
+    'plugins': 'image media table link autolink lists advlist',
+    'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | image media link',
+    'image_advtab': True,
+    'file_picker_types': 'image',
+    'automatic_uploads': False,
+    'images_upload_url': '',
+}
