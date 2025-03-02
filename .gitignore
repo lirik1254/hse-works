@@ -251,7 +251,6 @@ fabric.properties
 # AlgoPath environment variables
 envs/*
 !envs/.env.example
-!envs/.env.local
 
 # AlgoPath media files
 media/*

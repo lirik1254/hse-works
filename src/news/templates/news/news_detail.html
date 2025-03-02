@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Новость</title>
+</head>
+<body>
+<h1>{{ news.title }}</h1>
+<p><strong>Автор:</strong> {{ news.author.username }}</p>
+<p><strong>Дата публикации:</strong> {{ news.created_at }}</p>
+<p><strong>Категория:</strong>
+    <span class="badge bg-success">{{ news.category.name }}</span>
+</p>
+<p>{{ news.content|safe }}</p> {# Используем `safe`, если TinyMCE #}
+<a href="{% url 'news_list' %}">< Вернуться к списку</a>
+<hr>
+<h2>Комментарии</h2>
+{% for comment in comments %}
+<div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+    <p><strong>{{ comment.author.username }}</strong> написал:</p>
+    <p>{{ comment.content|safe }}</p>
+    <p><small>Дата: {{ comment.created_at }}</small></p>
+</div>
+{% empty %}
+<p>Комментариев пока нет.</p>
+{% endfor %}
+</body>
+</html>

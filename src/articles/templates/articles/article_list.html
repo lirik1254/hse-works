@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список статей</title>
+</head>
+<body>
+<h1>Список статей</h1>
+
+<form method="GET">
+    <input type="text" name="q" value="{{ query }}" placeholder="Поиск по заголовку">
+    <select name="author">
+        <option value="">Все авторы</option>
+        {% for article in page_obj %}
+        <option value="{{ article.author.id }}" {% if author_id|slugify == article.author.id|slugify %}selected{% endif %}>
+            {{ article.author.username }}
+        </option>
+        {% endfor %}
+    </select>
+    <select name="tag">
+        <option value="">Все теги</option>
+        {% for tag in tags %}
+        <option value="{{ tag.id }}" {% if tag_id|slugify == tag.id|slugify %}selected{% endif %}>
+            {{ tag.name }}
+        </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Фильтр</button>
+</form>
+
+{% for article in page_obj %}
+<div>
+    <h2><a href="{% url 'article_detail' article.id %}">{{ article.title }}</a></h2>
+    <p><strong>Автор:</strong> {{ article.author.username }}</p>
+    <p><strong>Теги:</strong>
+        {% for tag in article.tags.all %}
+        <span class="badge bg-primary">{{ tag.name }}</span>
+        {% empty %}
+        <span class="text-muted">Нет тегов</span>
+        {% endfor %}
+    </p>
+    <p><strong>Дата публикации:</strong> {{ article.created_at }}</p>
+</div>
+{% empty %}
+<p>Статей нет.</p>
+{% endfor %}
+
+<div class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page=1">Первая</a>
+    <a href="?page={{ page_obj.previous_page_number }}"><</a>
+    {% endif %}
+
+    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">></a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+    {% endif %}
+</div>
+</body>
+</html>

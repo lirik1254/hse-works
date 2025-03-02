@@ -3,7 +3,6 @@ import json
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import UserProfile
-from codeforces.service import get_user_dict
 from custom_auth.tasks import redis_client
 
 
@@ -21,6 +20,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
                 return codeforces_data['rating']
             else:
                 return 'Не в рейтинге'
+
         return None
 
 

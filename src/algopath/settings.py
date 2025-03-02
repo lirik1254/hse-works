@@ -13,38 +13,32 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 
 import os
-from dotenv import load_dotenv
-from celery.schedules import crontab
 
-
-current_dir = Path(os.getcwd()).parent
-
-ENV_PATH = current_dir / 'envs' / '.env.local'
-load_dotenv(dotenv_path=ENV_PATH)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', default=False))
+DEBUG = bool(os.environ.get('DEBUG'))
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1').split(' ')
-
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
 
 # Application definition
 
 INSTALLED_APPS = [
+    'tinymce',
     'django_celery_beat',
     'custom_auth',
+    'home',
     'articles',
     'codeforces',
     'news',
+    'handbook',
     'static_pages',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -67,21 +61,21 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'algopath.urls'
 
-LOGOUT_REDIRECT_URL = '/api/pages/main'
+LOGOUT_REDIRECT_URL = '/home'
 
 CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://localhost:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+    'default': {
+        'BACKEND': os.environ.get('CACHES_DEFAULT_BACKEND'),
+        'LOCATION': os.environ.get('CACHES_DEFAULT_LOCATION'),
+        'OPTIONS': {
+            'CLIENT_CLASS': os.environ.get('CACHES_DEFAULT_OPTIONS_CLIENT_CLASS'),
         }
     }
 }
 
-CELERY_BROKER_URL = "redis://localhost:6379/0"
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
 
 TEMPLATES = [
     {
@@ -101,21 +95,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'algopath.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DJANGO_DATABASE_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': os.environ.get('DJANGO_DATABASE_NAME', 'db.sqlite3'),
-        'USER': os.environ.get('DJANGO_DATABASE_USER', ''),
-        'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD', ''),
-        'HOST': os.environ.get('DJANGO_DATABASE_HOST', ''),
-        'PORT': os.environ.get('DJANGO_DATABASE_PORT', '')
+        'ENGINE': os.environ.get('DATABASES_DEFAULT_ENGINE'),
+        'NAME': os.environ.get('DATABASES_DEFAULT_NAME'),
+        'USER': os.environ.get('DATABASES_DEFAULT_USER'),
+        'PASSWORD': os.environ.get('DATABASES_DEFAULT_PASSWORD'),
+        'HOST': os.environ.get('DATABASES_DEFAULT_HOST'),
+        'PORT': int(os.environ.get('DATABASES_DEFAULT_PORT'))
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -135,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -146,7 +137,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -160,7 +150,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = tuple(os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', 'http://127.0.0.1').split(' '))
+CSRF_TRUSTED_ORIGINS = tuple(os.environ.get('CSRF_TRUSTED_ORIGINS').split(' '))
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
@@ -168,16 +158,26 @@ REST_FRAMEWORK = {
     ),
 }
 
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+EMAIL_USE_TLS = bool(os.environ.get('EMAIL_USE_TLS'))
+EMAIL_USE_SSL = bool(os.environ.get('EMAIL_USE_SSL'))
 
-EMAIL_HOST_USER = 'fspmailsender@yandex.ru'
-EMAIL_HOST_PASSWORD = 'yyhlkenfihguvkca'
-DEFAULT_FROM_EMAIL = 'fspmailsender@yandex.ru'
-
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # Обработчик по умолчанию
+    'django.contrib.auth.backends.ModelBackend',
 ]
+
+TINYMCE_DEFAULT_CONFIG = {
+    'height': 500,
+    'width': '100%',
+    'plugins': 'image media table link autolink lists advlist',
+    'toolbar': 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | image media link',
+    'image_advtab': True,
+    'file_picker_types': 'image',
+    'automatic_uploads': False,
+    'images_upload_url': '',
+}

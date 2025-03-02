@@ -1,5 +1,14 @@
-from django.shortcuts import render
+from django.views.generic import DetailView
+
+from static_pages.models import StaticPage
 
 
-def main(request):
-    return render(request, 'static_pages/main.html')
+class StaticPageDetailView(DetailView):
+    model = StaticPage
+    template_name = 'static_pages/static_page_detail.html'
+    context_object_name = 'page'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+
+    def get_queryset(self):
+        return StaticPage.objects.filter(is_hidden=False)

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ section.title }}</title>
+</head>
+<body>
+<h1>{{ section.title }}</h1>
+
+{% if subsections %}
+<h2>Подразделы</h2>
+<ul>
+    {% for sub in subsections %}
+    <li><a href="{% url 'section_detail' sub.slug %}">{{ sub.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if pages %}
+<h2>Страницы</h2>
+<ul>
+    {% for page in pages %}
+    <li><a href="{% url 'page_detail' page.slug %}">{{ page.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+</body>
+</html>

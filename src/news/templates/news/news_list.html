@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список новостей</title>
+</head>
+<body>
+<h1>Список новостей</h1>
+
+<form method="GET">
+    <input type="text" name="q" value="{{ query }}" placeholder="Поиск по заголовку">
+    <select name="author">
+        <option value="">Все авторы</option>
+        {% for news in page_obj %}
+        <option value="{{ news.author.id }}" {% if author_id|slugify == news.author.id|slugify %}selected{% endif %}>
+            {{ news.author.username }}
+        </option>
+        {% endfor %}
+    </select>
+    <select name="category">
+        <option value="">Все категории</option>
+        {% for category in categories %}
+        <option value="{{ category.id }}" {% if category_id|slugify == category.id|slugify %}selected{% endif %}>
+            {{ category.name }}
+        </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Фильтр</button>
+</form>
+
+{% for news in page_obj %}
+<div>
+    <h2><a href="{% url 'news_detail' news.id %}">{{ news.title }}</a></h2>
+    <p><strong>Автор:</strong> {{ news.author.username }}</p>
+    <p><strong>Теги:</strong>
+        <span class="badge bg-primary">{{ news.category.name }}</span>
+    </p>
+    <p><strong>Дата публикации:</strong> {{ news.created_at }}</p>
+</div>
+{% empty %}
+<p>Новостей нет.</p>
+{% endfor %}
+
+<div class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page=1">Первая</a>
+    <a href="?page={{ page_obj.previous_page_number }}"><</a>
+    {% endif %}
+
+    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">></a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+    {% endif %}
+</div>
+</body>
+</html>
