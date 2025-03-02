@@ -20,7 +20,8 @@ from django.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
 
-urlpatterns = ([path('', include('static_pages.urls')),
+urlpatterns = ([path('', include('home.urls')),
+                path('pages/', include('static_pages.urls')),
                 path('tinymce/', include('tinymce.urls')),
                 path('admin/', admin.site.urls),
                 path('articles/', include('articles.urls')),
@@ -28,6 +29,5 @@ urlpatterns = ([path('', include('static_pages.urls')),
                 path('handbook/', include('handbook.urls')),
                 path('api/codeforces/', include('codeforces.urls')),
                 path('api/', include('custom_auth.urls')),
-                path('api/pages/', include('static_pages.urls')),
-                path('api/userprofile', include('user_profiles.urls'))]
-               + static(settings.STATIC_URL, document_root=settings.STATIC_URL))
+                path('api/userprofile/', include('user_profiles.urls'))]
+               + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))

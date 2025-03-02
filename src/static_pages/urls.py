@@ -1,7 +1,6 @@
 from django.urls import path
-from .views import StaticPageDetailView, HomeTemplateView
+from .views import StaticPageDetailView
 
 urlpatterns = [
-    path('home/', HomeTemplateView.as_view(), name='home_template'),
     path('<slug:slug>/', StaticPageDetailView.as_view(), name='static_page_detail'),
 ]

@@ -1,4 +1,4 @@
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView
 
 from static_pages.models import StaticPage
 
@@ -12,7 +12,3 @@ class StaticPageDetailView(DetailView):
 
     def get_queryset(self):
         return StaticPage.objects.filter(is_hidden=False)
-
-
-class HomeTemplateView(TemplateView):
-    template_name = 'static_pages/home_template.html'
