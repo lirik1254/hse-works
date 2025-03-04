@@ -130,7 +130,7 @@ def custom_login(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('main')
+                return redirect('home_template')
             else:
                 messages.error(request, "Неверный логин или пароль.")
                 return redirect('login')

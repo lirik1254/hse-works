@@ -21,12 +21,12 @@ class RegistrationForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name']
 
-    # def clean_email(self):
-    #     """Проверка уникальности email."""
-    #     email = self.cleaned_data.get('email')
-    #     if User.objects.filter(email=email).exists():
-    #         raise forms.ValidationError("Этот email уже зарегистрирован.")
-    #     return email
+    def clean_email(self):
+        """Проверка уникальности email."""
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Этот email уже зарегистрирован.")
+        return email
 
     def clean_username(self):
         """Проверка уникальности ника."""
