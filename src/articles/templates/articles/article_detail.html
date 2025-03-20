@@ -1,32 +1,118 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Статья</title>
+  <meta charset="UTF-8">
+  <title>Статья</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Шапка */
+    .navbar-custom {
+      background-color: #333;
+        border-bottom: 1px solid #444;
+    }
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+      color: #fff !important;
+      text-transform: uppercase;
+    }
+    .navbar-custom .nav-link:hover {
+      color: #ccc !important;
+    }
+    /* Кнопка «Присоединиться к нам» */
+    .join-btn {
+      background-color: #fff;
+      color: #000;
+      border-radius: 50px;
+      font-weight: 600;
+      border: none;
+    }
+    .join-btn:hover {
+      background-color: #0d6efd;
+      color: #fff;
+    }
+    /* Общий фон и цвет текста для тёмной темы */
+    body {
+      background-color: #333;
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
-<h1>{{ article.title }}</h1>
-<p><strong>Автор:</strong> {{ article.author.username }}</p>
-<p><strong>Дата публикации:</strong> {{ article.created_at }}</p>
-<p><strong>Теги:</strong>
-    {% for tag in article.tags.all %}
-    <span class="badge bg-success">{{ tag.name }}</span>
+
+<!-- Навигационная панель -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">ФСП</a>
+    <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="#">Новости</a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="#">Статьи</a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="#">Участники</a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="#">Олимпиады</a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="#">Информация</a>
+        </li>
+      </ul>
+    </div>
+    <a href="#" class="btn join-btn d-none d-lg-block">
+      Присоединиться<br>к нам
+    </a>
+  </div>
+</nav>
+
+<div class="container my-5">
+  <!-- Основная карточка со статьёй -->
+  <div class="card bg-dark text-light border-light">
+    <div class="card-body">
+      <h1 class="card-title">{{ article.title }}</h1>
+      <p class="card-text">
+        <strong>Автор:</strong> {{ article.author.username }}<br>
+        <strong>Дата публикации:</strong> {{ article.created_at }}<br>
+        <strong>Теги:</strong>
+        {% for tag in article.tags.all %}
+          <span class="badge bg-success">{{ tag.name }}</span>
+        {% empty %}
+          <span class="text-muted">Нет тегов</span>
+        {% endfor %}
+      </p>
+      <hr>
+      <div class="mb-3">
+        {{ article.content|safe }}
+      </div>
+      <a href="{% url 'article_list' %}" class="btn btn-outline-light">
+        &laquo; Вернуться к списку
+      </a>
+    </div>
+  </div>
+
+  <!-- Блок комментариев -->
+  <div class="mt-5">
+    <h2>Комментарии</h2>
+    {% for comment in comments %}
+      <div class="card bg-secondary text-light mb-3">
+        <div class="card-body">
+          <p><strong>{{ comment.author.username }}</strong> написал:</p>
+          <p>{{ comment.content|safe }}</p>
+          <p class="text-muted mb-0">Дата: {{ comment.created_at }}</p>
+        </div>
+      </div>
     {% empty %}
-    <span class="text-muted">Нет тегов</span>
+      <p>Комментариев пока нет.</p>
     {% endfor %}
-</p>
-<p>{{ article.content|safe }}</p> {# Используем `safe`, если TinyMCE #}
-<a href="{% url 'article_list' %}">< Вернуться к списку</a>
-<hr>
-<h2>Комментарии</h2>
-{% for comment in comments %}
-<div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
-    <p><strong>{{ comment.author.username }}</strong> написал:</p>
-    <p>{{ comment.content|safe }}</p>
-    <p><small>Дата: {{ comment.created_at }}</small></p>
+  </div>
 </div>
-{% empty %}
-<p>Комментариев пока нет.</p>
-{% endfor %}
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
