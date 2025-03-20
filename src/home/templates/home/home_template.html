@@ -45,6 +45,22 @@
       background-color: #0d6efd; /* или любой другой оттенок */
       color: #fff;
     }
+
+    .gradient-text {
+      /* Определяем градиент с нужными цветами (синий, серый, чёрный) */
+      background: linear-gradient(270deg, #0d6efd, #aaa, #333);
+      background-size: 600% 600%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientAnimation 15s ease infinite;
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
   </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #333;">
@@ -56,13 +72,6 @@
       ФСП
     </a>
 
-    <!-- Кнопка-«гамбургер» (для мобильных) -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#mainNavbar" aria-controls="mainNavbar"
-            aria-expanded="false" aria-label="Переключить навигацию">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
     <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
       <ul class="navbar-nav">
         <li class="nav-item mx-2">
@@ -70,6 +79,9 @@
         </li>
         <li class="nav-item mx-2">
           <a class="nav-link" href="/articles">Статьи</a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="/handbook/sections">Хэндбук</a>
         </li>
         <li class="nav-item mx-2">
           <a class="nav-link" href="api/codeforces/participants">Участники</a>
@@ -82,10 +94,10 @@
             Информация
           </a>
           <ul class="dropdown-menu" aria-labelledby="infoDropdown">
-            <li><a class="dropdown-item" href="#">Глоссарий</a></li>
-            <li><a class="dropdown-item" href="#">Советы и рекомендации</a></li>
-            <li><a class="dropdown-item" href="#">Гайды по спортпроге</a></li>
-            <li><a class="dropdown-item" href="#">Ресурсы по спортпроге</a></li>
+            <li><a class="dropdown-item" href="pages/glossary/">Глоссарий</a></li>
+            <li><a class="dropdown-item" href="pages/advices">Советы и рекомендации</a></li>
+            <li><a class="dropdown-item" href="pages/guides_sports_prog">Гайды по спортпроге</a></li>
+            <li><a class="dropdown-item" href="pages/resources_sports_prog">Ресурсы по спортпроге</a></li>
           </ul>
         </li>
       </ul>
@@ -103,14 +115,15 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-md-6 mb-4 mb-md-0">
-        <h1 class="display-4 fw-bold">
+        <h1 class="display-4 fw-bold gradient-text">
           Раскройте <br> потенциал будущего
         </h1>
-        <p class="lead">
+        <p class="lead gradient-text">
           Улучшите свои навыки программирования и преуспейте в соревнованиях
           с помощью нашего экспертного подхода.
         </p>
       </div>
+
       <div class="col-md-6 d-flex justify-content-center">
         <div class="d-flex flex-column">
           <a href="#"

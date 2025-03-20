@@ -1,19 +1,112 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Разделы</title>
+  <meta charset="UTF-8">
+  <title>Список разделов</title>
+  <!-- Подключаем Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #333;
+      color: #fff;
+    }
+    .navbar-custom {
+      background-color: #333;
+      border-bottom: 1px solid #444;
+    }
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+      color: #fff !important;
+      text-transform: uppercase;
+    }
+    .navbar-custom .nav-link:hover {
+      color: #ccc !important;
+    }
+    .join-btn {
+      background-color: #fff;
+      color: #000;
+      border-radius: 50px;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      border: none;
+    }
+    .join-btn:hover {
+      background-color: #0d6efd;
+      color: #fff;
+    }
+
+    /* Тёмный стиль для элементов списка */
+    .list-group-item.bg-dark {
+      background-color: #444 !important;
+      border: 1px solid #555 !important;
+    }
+    .list-group-item.bg-dark:hover {
+      background-color: #555 !important;
+    }
+  </style>
 </head>
 <body>
-<h1>Список разделов</h1>
-<ul>
-    {% for section in sections %}
-        <li>
-            <a href="{% url 'section_detail' slug=section.slug %}">
-                {{ section.title }}
-            </a>
+
+<!-- Навигационная панель -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">ФСП</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar" aria-controls="mainNavbar"
+            aria-expanded="false" aria-label="Переключить навигацию">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="/news">Новости</a>
         </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="/articles">Статьи</a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="#">Участники</a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="#">Олимпиады</a>
+        </li>
+        <!-- Пункт "Информация" с выпадающим меню -->
+        <li class="nav-item dropdown mx-2">
+          <a class="nav-link dropdown-toggle" href="#" id="infoDropdown" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
+            Информация
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="infoDropdown">
+            <li><a class="dropdown-item" href="#">Глоссарий</a></li>
+            <li><a class="dropdown-item" href="#">Советы и рекомендации</a></li>
+            <li><a class="dropdown-item" href="#">Гайды по спортпроге</a></li>
+            <li><a class="dropdown-item" href="#">Ресурсы по спортпроге</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <a href="#" class="btn join-btn d-none d-lg-block">
+      Присоединиться<br>к нам
+    </a>
+  </div>
+</nav>
+
+<div class="container my-5">
+  <h1 class="mb-4">Список разделов</h1>
+  <!-- List Group с тёмными элементами -->
+  <ul class="list-group">
+    {% for section in sections %}
+      <li class="list-group-item bg-dark">
+        <a href="{% url 'section_detail' slug=section.slug %}" class="text-decoration-none text-light">
+          <h5 class="fw-bold mb-0">{{ section.title }}</h5>
+        </a>
+      </li>
     {% endfor %}
-</ul>
+  </ul>
+</div>
+
+<!-- Подключаем Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
