@@ -6,9 +6,6 @@
 
 {% block extra_css %}
 <style>
-  .tooltip {
-    z-index: 99999 !important;
-  }
   .register-container {
     max-width: 500px;
     margin: 3rem auto;
@@ -45,7 +42,18 @@
     margin-bottom: 0.5rem;
     color: #fff;
   }
-
+.login-link {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .login-link a {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .login-link a:hover {
+    text-decoration: underline;
+  }
 </style>
 {% endblock %}
 
@@ -85,6 +93,9 @@
         {% endfor %}
       </ul>
     {% endif %}
+    <div class="login-link">
+      <p>Уже зарегистрированы? <a href="/api/login">Войти</a></p>
+    </div>
   </div>
 </div>
 {% endblock %}
