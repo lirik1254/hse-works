@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .navbar-custom {
+            height: 70px;
             background-color: transparent;
             border-bottom: 1px solid #dde3e8; /* Светлая нижняя граница */
         }
@@ -112,10 +113,12 @@
           </ul>
         </div>
 
-        <!-- Кнопка «Присоединиться к нам» -->
-        <a href="#" class="btn join-btn d-none d-lg-block">
-          Присоединиться<br>к нам
-        </a>
+          {% if not user.is_authenticated %}
+          <a href="/api/register/" class="btn join-btn d-none d-lg-block">
+            Присоединиться<br>к нам
+          </a>
+        {% endif %}
+
       </div>
     </nav>
     <!-- Основной контент -->
