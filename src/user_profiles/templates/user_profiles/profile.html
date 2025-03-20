@@ -1,106 +1,219 @@
-{% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5 profile-edit">
+    <div class="row g-4">
+        <!-- Сообщения -->
+        {% if messages %}
+        <div class="col-12">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} message-box">
+                <i class="bi bi-info-circle me-2"></i>{{ message }}
             </div>
-        {% endfor %}
-    </div>
-{% endif %}
-
-<form method="post">
-    {% csrf_token %}
-
-    <label for="id_username"><strong>Имя пользователя:</strong></label>
-    {{ user_form.username }}
-    {% if user_form.username.errors %}
-        <ul style="color: red;">
-            {% for error in user_form.username.errors %}
-                <li>{{ error }}</li>
             {% endfor %}
-        </ul>
-    {% endif %}
-    <br>
+        </div>
+        {% endif %}
 
-    <label for="id_first_name"><strong>Имя:</strong></label>
-    {{ user_form.first_name }}
-    {% if user_form.first_name.errors %}
-        <ul style="color: red;">
-            {% for error in user_form.first_name.errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <br>
+        <!-- Форма редактирования -->
+        <div class="col-12 col-lg-8">
+            <div class="card profile-card">
+                <div class="card-header">
+                    <h2 class="h4"><i class="bi bi-pencil-square me-2"></i>Редактирование профиля</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Основная информация -->
+                        <div class="mb-4">
+                            <h3 class="h5 mb-3"><i class="bi bi-person-lines-fill me-2"></i>Основные данные</h3>
+                            <div class="row g-3">
+                                {% for field in user_form %}
+                                <div class="col-12">
+                                    <label class="form-label">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                    <div class="error-message">
+                                        {% for error in field.errors %}
+                                        <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
 
-    <label for="id_last_name"><strong>Фамилия:</strong></label>
-    {{ user_form.last_name }}
-    {% if user_form.last_name.errors %}
-        <ul style="color: red;">
-            {% for error in user_form.last_name.errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <br>
+                        <!-- Дополнительная информация -->
+                        <div class="mb-4">
+                            <h3 class="h5 mb-3"><i class="bi bi-file-earmark-plus me-2"></i>Дополнительно</h3>
+                            <div class="row g-3">
+                                {% for field in profile_form %}
+                                <div class="col-12">
+                                    <label class="form-label">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                    <div class="error-message">
+                                        {% for error in field.errors %}
+                                        <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
 
-    <h2>Дополнительная информация</h2>
-
-    <label for="id_bio"><strong>О себе:</strong></label>
-    {{ profile_form.bio }}
-    {% if profile_form.bio.errors %}
-        <ul style="color: red;">
-            {% for error in profile_form.bio.errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <br>
-
-    <label for="id_university_group"><strong>Учебная группа:</strong></label>
-    {{ profile_form.university_group }}
-    {% if profile_form.university_group.errors %}
-        <ul style="color: red;">
-            {% for error in profile_form.university_group.errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <br>
-
-    <label for="id_codeforces_handle"><strong>Codeforces Handle:</strong></label>
-    {{ profile_form.codeforces_handle }}
-    {% if profile_form.codeforces_handle.errors %}
-        <ul style="color: red;">
-            {% for error in profile_form.codeforces_handle.errors %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <br>
-
-    <button type="submit">Сохранить</button>
-</form>
-<br>
-<br>
-Как меня видят на кодфорсе
-<br>
-<br>
-{% if cf_data %}
-        <div>
-            <img src="{{ cf_data.title_photo }}" alt="Фото пользователя Codeforces" style="width: 200px; height: 200px;">
+                        <button type="submit" class="btn-save">
+                            <i class="bi bi-save me-2"></i>Сохранить изменения
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
 
-        <p><strong>Ник на Codeforces:</strong> {% if user_data.codeforces_handle %}{{ user_data.codeforces_handle }}{% else %}-{% endif %}</p>
-        <p><strong>Текущий ранг:</strong> {% if cf_data.rank %}{{ cf_data.rank }}{% else %}-{% endif %}</p>
-        <p><strong>Максимальный ранг:</strong> {% if cf_data.max_rank %}{{ cf_data.max_rank }}{% else %}-{% endif %}</p>
-        <p><strong>Текущий рейтинг:</strong> {% if cf_data.rating %}{{ cf_data.rating }}{% else %}-{% endif %}</p>
-        <p><strong>Максимальный рейтинг:</strong> {% if cf_data.max_rating %}{{ cf_data.max_rating }}{% else %}-{% endif %}</p>
-        <p><strong>Количество друзей:</strong> {% if cf_data.friend_count %}{{ cf_data.friend_count }}{% else %}-{% endif %}</p>
-        <p><strong>Организация:</strong> {% if cf_data.organization %}{{ cf_data.organization }}{% else %}-{% endif %}</p>
-        <p><strong>Дата регистрации:</strong> {% if cf_data.registration_date %}{{ cf_data.registration_date }}{% else %}-{% endif %}</p>
-    {% else %}
-        <p>Информация о пользователе на Codeforces не найдена.</p>
-    {% endif %}
+        <!-- Информация Codeforces -->
+        <div class="col-12 col-lg-4">
+            <div class="card profile-card">
+                <div class="card-header">
+                    <h2 class="h4"><i class="bi bi-code-square me-2"></i>Codeforces</h2>
+                </div>
+                <div class="card-body">
+                    {% if cf_data %}
+                    <div class="cf-avatar">
+                        <img src="{{ cf_data.title_photo }}" alt="Фото профиля">
+                    </div>
+                    
+                    <div class="cf-stats">
+                        <div class="stat-item">
+                            <i class="bi bi-person-badge"></i>
+                            <span>{{ cf_data.rank|default:"-" }}</span>
+                            <small>Текущий ранг</small>
+                        </div>
+                        
+                        <div class="stat-item">
+                            <i class="bi bi-graph-up"></i>
+                            <span>{{ cf_data.rating|default:"-" }}</span>
+                            <small>Текущий рейтинг</small>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="alert-message">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Информация не найдена
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<a href="{% url 'home_template' %}" class="btn btn-secondary">Назад</a>
+<style>
+    /* Основные цвета */
+    .profile-edit {
+        --mint: #89d2c5;
+        --dark-1: #333;
+        --dark-2: #444;
+        --dark-3: #555;
+    }
+
+    /* Карточки */
+    .profile-card {
+        background: var(--dark-2);
+        border: 1px solid var(--dark-3);
+        color: white;
+    }
+
+    .profile-card .card-header {
+        background: var(--dark-3);
+        border-bottom: 1px solid var(--dark-3);
+        color: var(--mint);
+    }
+
+    /* Формы */
+    .profile-edit input,
+    .profile-edit textarea,
+    .profile-edit select {
+        background: var(--dark-3) !important;
+        border: 1px solid var(--dark-3) !important;
+        color: white !important;
+        width: 100%;
+        padding: 8px;
+        border-radius: 4px;
+    }
+
+    .profile-edit input:focus {
+        border-color: var(--mint) !important;
+        box-shadow: 0 0 0 3px rgba(137, 210, 197, 0.25);
+    }
+
+    /* Кнопки */
+    .btn-save {
+        background: var(--mint);
+        color: var(--dark-1);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        width: 100%;
+    }
+
+    .btn-save:hover {
+        background: #6ab0a6;
+    }
+
+    /* Аватар */
+    .cf-avatar img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 2px solid var(--mint);
+        margin: 0 auto 20px;
+        display: block;
+    }
+
+    /* Сообщения */
+    .message-box {
+        background: var(--dark-3);
+        border: 1px solid var(--mint);
+        color: var(--mint);
+    }
+
+    .error-message {
+        color: #dc3545;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+
+    /* Статистика */
+    .cf-stats {
+        background: var(--dark-3);
+        padding: 15px;
+        border-radius: 6px;
+    }
+
+    .stat-item {
+        padding: 10px;
+        border-bottom: 1px solid var(--dark-2);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .stat-item i {
+        color: var(--mint);
+        font-size: 1.2em;
+    }
+
+    /* Кнопка назад */
+    .back-button a {
+        color: var(--mint);
+        text-decoration: none;
+    }
+
+    .back-button a:hover {
+        color: #6ab0a6;
+    }
+</style>
+{% endblock %}
