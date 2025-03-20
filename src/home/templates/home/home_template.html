@@ -1,135 +1,45 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Главная страница</title>
-  <!-- Подключаем Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .navbar-custom {
-      background-color: transparent;
-    }
-    .navbar-custom .navbar-brand,
-    .navbar-custom .nav-link,
-    .navbar-custom .navbar-toggler-icon {
-      color: #fff !important;
-    }
-    .navbar-custom .nav-link {
-      font-weight: 500;
-      text-transform: uppercase;
-    }
-    .navbar-custom .nav-link:hover {
-      color: #ccc !important;
-    }
-    .join-btn {
-      background-color: #fff;
-      color: #000;
-      border-radius: 50px;
-      padding: 0.5rem 1rem;
-      font-weight: 600;
-      line-height: 1.2;
-      text-align: center;
-      border: none;
-    }
-    .join-btn:hover {
-      background-color: #0d6efd;
-      color: #fff;
-    }
-    .dropdown-menu {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
+{% extends "base.html" %}
 
-    /* Фон при наведении на пункт меню */
-    .dropdown-menu .dropdown-item:hover {
-      background-color: #0d6efd; /* или любой другой оттенок */
-      color: #fff;
+{% block title %}Главная страница{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Специфичные стили для главной страницы */
+    .hero-section h1,
+    .hero-section p {
+        color: #333 !important; 
     }
-  </style>
-</head>
-<body style="margin: 0; padding: 0; background-color: #333;">
+</style>
+{% endblock %}
 
-<!-- Навигационная панель -->
-<nav class="navbar navbar-expand-lg navbar-custom">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
-      ФСП
-    </a>
-
-    <!-- Кнопка-«гамбургер» (для мобильных) -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#mainNavbar" aria-controls="mainNavbar"
-            aria-expanded="false" aria-label="Переключить навигацию">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
-      <ul class="navbar-nav">
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="/news">Новости</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="/articles">Статьи</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="api/codeforces/participants">Участники</a>
-        </li>
-
-        <!-- Пункт "Информация" с выпадающим меню -->
-        <li class="nav-item dropdown mx-2">
-          <a class="nav-link dropdown-toggle" href="#" id="infoDropdown" role="button"
-             data-bs-toggle="dropdown" aria-expanded="false">
-            Информация
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="infoDropdown">
-            <li><a class="dropdown-item" href="#">Глоссарий</a></li>
-            <li><a class="dropdown-item" href="#">Советы и рекомендации</a></li>
-            <li><a class="dropdown-item" href="#">Гайды по спортпроге</a></li>
-            <li><a class="dropdown-item" href="#">Ресурсы по спортпроге</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Кнопка «Присоединиться к нам» -->
-    <a href="#" class="btn join-btn d-none d-lg-block">
-      Присоединиться<br>к нам
-    </a>
-  </div>
-</nav>
-
-<!-- Главный экран (Hero section) -->
-<section class="py-5" style="background-color: #eaeaea;">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-6 mb-4 mb-md-0">
-        <h1 class="display-4 fw-bold">
-          Раскройте <br> потенциал будущего
-        </h1>
-        <p class="lead">
-          Улучшите свои навыки программирования и преуспейте в соревнованиях
-          с помощью нашего экспертного подхода.
-        </p>
-      </div>
-      <div class="col-md-6 d-flex justify-content-center">
-        <div class="d-flex flex-column">
-          <a href="#"
-             class="btn btn-primary mb-3"
-             style="border-radius: 50%; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
-            ФОТОГРАФИИ
-          </a>
-          <a href="#"
-             class="btn btn-secondary"
-             style="border-radius: 50%; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
-            ЗАЛ СЛАВЫ
-          </a>
+{% block content %}
+<section class="hero-section py-5" style="background-color: #eaeaea;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <h1 class="display-4 fw-bold">
+                    Раскройте <br> потенциал будущего
+                </h1>
+                <p class="lead">
+                    Улучшите свои навыки программирования и преуспейте в соревнованиях
+                    с помощью нашего экспертного подхода.
+                </p>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="d-flex flex-column">
+                    <a href="#"
+                       class="btn btn-primary mb-3"
+                       style="border-radius: 50%; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
+                        ФОТОГРАФИИ
+                    </a>
+                    <a href="#"
+                       class="btn btn-secondary"
+                       style="border-radius: 50%; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
+                        ЗАЛ СЛАВЫ
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
-
-<!-- Подключаем Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}

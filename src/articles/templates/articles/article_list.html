@@ -1,165 +1,28 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Список статей</title>
-  <!-- Подключаем Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <style>
-     /* Тёмная тема */
-    body {
-      background-color: #333;
-      color: #fff;
-    }
-    /* Шапка */
-    .navbar-custom {
-      background-color: #333;
-        border-bottom: 1px solid #444;
-    }
-    .navbar-custom .navbar-brand,
-    .navbar-custom .nav-link {
-      color: #fff !important;
-      text-transform: uppercase;
-    }
-    .navbar-custom .nav-link:hover {
-      color: #ccc !important;
-    }
-    /* Кнопка «Присоединиться к нам» */
-    .join-btn {
-      background-color: #fff;
-      color: #000;
-      border-radius: 50px;
-      font-weight: 600;
-      border: none;
-    }
-    .join-btn:hover {
-      background-color: #0d6efd;
-      color: #fff;
-    }
+{% block title %}Список статей{% endblock %}
 
-    /* Тёмный стиль для формы (поиска и фильтров) */
-    .form-control,
-    .form-select {
-      background-color: #444 !important;
-      color: #fff !important;
-      border: 1px solid #555 !important;
-    }
-
-    /* Тёмные карточки статей */
-    .card.bg-dark {
-      background-color: #444 !important; /* немного светлее, чем общий фон */
-    }
-    .card.bg-dark .card-footer {
-      background-color: #444 !important;
-    }
-
-    /* Тёмная пагинация */
-    .pagination .page-item .page-link {
-      background-color: #444;
-      color: #fff;
-      border-color: #555;
-    }
-    .pagination .page-item .page-link:hover {
-      background-color: #555;
-      color: #fff;
-    }
-    .card-footer-light{
-      margin-left: 15px;
-      margin-bottom: 3px;
-    }
-    .text-mint{
-      color: #89d2c5;
-    }
-    .form-control::placeholder{
-      color: #89d2c5;
-    }
-    .dropdown-menu {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Фон при наведении на пункт меню */
-    .dropdown-menu .dropdown-item:hover {
-      background-color: #0d6efd; /* или любой другой оттенок */
-      color: #fff;
-    }
-  </style>
-</head>
-<body>
-
-<!-- Навигационная панель -->
-<nav class="navbar navbar-expand-lg navbar-custom">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
-      ФСП
-    </a>
-
-    <!-- Кнопка-«гамбургер» (для мобильных) -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#mainNavbar" aria-controls="mainNavbar"
-            aria-expanded="false" aria-label="Переключить навигацию">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
-      <ul class="navbar-nav">
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="/news">Новости</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="/articles">Статьи</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="api/codeforces/participants">Участники</a>
-        </li>
-
-        <!-- Пункт "Информация" с выпадающим меню -->
-        <li class="nav-item dropdown mx-2">
-          <a class="nav-link dropdown-toggle" href="#" id="infoDropdown" role="button"
-             data-bs-toggle="dropdown" aria-expanded="false">
-            Информация
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="infoDropdown">
-            <li><a class="dropdown-item" href="#">Глоссарий</a></li>
-            <li><a class="dropdown-item" href="#">Советы и рекомендации</a></li>
-            <li><a class="dropdown-item" href="#">Гайды по спортпроге</a></li>
-            <li><a class="dropdown-item" href="#">Ресурсы по спортпроге</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Кнопка «Присоединиться к нам» -->
-    <a href="#" class="btn join-btn d-none d-lg-block">
-      Присоединиться<br>к нам
-    </a>
-  </div>
-</nav>
-
+{% block content %}
 <div class="container my-5">
-
   <h1 class="mb-4">Список статей</h1>
 
   <!-- Форма поиска и фильтра -->
   <form method="GET" class="row g-3 mb-4">
-    <!-- Поле поиска по заголовку -->
     <div class="col-md-3">
       <input type="text" name="q" value="{{ query }}" placeholder="Поиск по заголовку" class="form-control">
     </div>
-    <!-- Фильтр по автору -->
     <div class="col-md-3">
       <select name="author" class="form-select">
         <option value="">Все авторы</option>
         {% for article in page_obj %}
-          <option value="{{ article.author.id }}"
+          <option value="{{ article.author.id }}" 
             {% if author_id|slugify == article.author.id|slugify %}selected{% endif %}>
             {{ article.author.username }}
           </option>
         {% endfor %}
       </select>
     </div>
-    <!-- Фильтр по тегу -->
     <div class="col-md-3">
       <select name="tag" class="form-select">
         <option value="">Все теги</option>
@@ -171,7 +34,6 @@
         {% endfor %}
       </select>
     </div>
-    <!-- Кнопка отправки формы -->
     <div class="col-md-3">
       <button type="submit" class="btn btn-primary w-100">Фильтр</button>
     </div>
@@ -182,7 +44,6 @@
     <div class="row">
       {% for article in page_obj %}
         <div class="col-md-6 col-lg-4 mb-4">
-          <!-- Тёмная карточка -->
           <div class="card bg-dark text-light border-light h-100">
             <div class="card-body">
               <h5 class="card-title">
@@ -222,13 +83,11 @@
           <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
         </li>
       {% endif %}
-
       <li class="page-item disabled">
         <span class="page-link">
           Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
         </span>
       </li>
-
       {% if page_obj.has_next %}
         <li class="page-item">
           <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
@@ -239,10 +98,49 @@
       {% endif %}
     </ul>
   </nav>
-
 </div>
+{% endblock %}
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% block extra_css %}
+<style>
+    .form-control,
+    .form-select {
+      background-color: #444 !important;
+      color: #fff !important;
+      border: 1px solid #555 !important;
+    }
+    
+    .form-control::placeholder {
+      color: #89d2c5;
+    }
+    
+    .card.bg-dark {
+      background-color: #444 !important;
+    }
+    
+    .card.bg-dark .card-footer {
+      background-color: #555 !important;
+    }
+    
+    .pagination .page-item .page-link {
+      background-color: #444;
+      color: #fff;
+      border-color: #555;
+    }
+    
+    .pagination .page-item .page-link:hover {
+      background-color: #555;
+      color: #fff;
+    }
+    
+    .card-footer-light {
+      margin-left: 15px;
+      margin-bottom: 3px;
+      color: #89d2c5;
+    }
+    
+    .text-mint {
+      color: #89d2c5;
+    }
+</style>
+{% endblock %}
