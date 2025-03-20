@@ -31,8 +31,10 @@ def codeforces_user_info(request, username):
         user_data['codeforces_handle'] = user_profile.codeforces_handle
 
     cf_data = {}
-    if user_profile.codeforces_handle:
-        cf_data = json.loads(redis_client.get(user_profile.codeforces_handle))
+    if user_profile and user_profile.codeforces_handle:  # Проверяем, что user_profile не None
+        redis_data = redis_client.get(user_profile.codeforces_handle)
+        if redis_data:  # Проверяем, что данные не None
+            cf_data = json.loads(redis_data)
 
     return render(request, "codeforces/participants_id.html", {"user_data": user_data, "cf_data": cf_data})
 
