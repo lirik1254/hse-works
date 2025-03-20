@@ -1,4 +1,4 @@
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from .models import Section, Page
 
 
@@ -26,3 +26,12 @@ class PageDetailView(DetailView):
 
     def get_queryset(self):
         return Page.objects.filter(is_hidden=False)
+
+
+class SectionListView(ListView):
+    model = Section
+    template_name = 'handbook/section_list.html'
+    context_object_name = 'sections'
+
+    def get_queryset(self):
+        return Section.objects.filter(is_hidden=False, parent__isnull=True)
