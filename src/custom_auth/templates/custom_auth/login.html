@@ -42,6 +42,9 @@
     margin-bottom: 0.5rem;
     color: #fff;
   }
+  .btn-mint{
+    background-color: #98FB98;
+  }
 </style>
 {% endblock %}
 
@@ -52,7 +55,7 @@
     <form method="POST">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Log in</button>
+      <button type="submit" class="btn btn-mint">Log in</button>
     </form>
 
     {% if messages %}
