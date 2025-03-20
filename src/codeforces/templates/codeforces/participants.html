@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Участники</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+
+<div class="container my-5">
     <h1>Список зарегистрированных пользователей</h1>
     <ul>
         {% for participant in participants_data %}
@@ -24,6 +20,5 @@
         {% endfor %}
     </ul>
     <a href="/">Назад</a>
-</body>
-</html>
+</div>
 

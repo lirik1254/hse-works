@@ -1,97 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{{ section.title }}{% endblock %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ section.title }}</title>
-  <!-- Подключаем Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #333;
-      color: #fff;
-    }
-    .navbar-custom {
-      background-color: #333;
-      border-bottom: 1px solid #444;
-    }
-    .navbar-custom .navbar-brand,
-    .navbar-custom .nav-link {
-      color: #fff !important;
-      text-transform: uppercase;
-    }
-    .navbar-custom .nav-link:hover {
-      color: #ccc !important;
-    }
-    .join-btn {
-      background-color: #fff;
-      color: #000;
-      border-radius: 50px;
-      padding: 0.5rem 1rem;
-      font-weight: 600;
-      border: none;
-    }
-    .join-btn:hover {
-      background-color: #0d6efd;
-      color: #fff;
-    }
-    /* Стили для list-group */
-    .list-group-item.bg-dark {
-      background-color: #444 !important;
-      border: 1px solid #555 !important;
-    }
-    .list-group-item.bg-dark:hover {
-      background-color: #555 !important;
-    }
-  </style>
-</head>
-<body>
 
-<!-- Навигационная панель -->
-<nav class="navbar navbar-expand-lg navbar-custom">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="#">
-      ФСП
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#mainNavbar" aria-controls="mainNavbar"
-            aria-expanded="false" aria-label="Переключить навигацию">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
-      <ul class="navbar-nav">
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="/news">Новости</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="/articles">Статьи</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="#">Участники</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="#">Олимпиады</a>
-        </li>
-        <li class="nav-item dropdown mx-2">
-          <a class="nav-link dropdown-toggle" href="#" id="infoDropdown" role="button"
-             data-bs-toggle="dropdown" aria-expanded="false">
-            Информация
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="infoDropdown">
-            <li><a class="dropdown-item" href="#">Глоссарий</a></li>
-            <li><a class="dropdown-item" href="#">Советы и рекомендации</a></li>
-            <li><a class="dropdown-item" href="#">Гайды по спортпроге</a></li>
-            <li><a class="dropdown-item" href="#">Ресурсы по спортпроге</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <a href="#" class="btn join-btn d-none d-lg-block">
-      Присоединиться<br>к нам
-    </a>
-  </div>
-</nav>
-
+{% block content %}
 <div class="container my-5">
   <!-- Название раздела -->
   <h1 class="mb-4">{{ section.title }}</h1>
@@ -124,8 +36,21 @@
     </ul>
   {% endif %}
 </div>
+{% endblock %}
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% block extra_css %}
+<style>
+  body {
+    background-color: #333;
+    color: #fff;
+  }
+  /* Тёмный стиль для элементов списка */
+  .list-group-item.bg-dark {
+    background-color: #444 !important;
+    border: 1px solid #555 !important;
+  }
+  .list-group-item.bg-dark:hover {
+    background-color: #555 !important;
+  }
+</style>
+{% endblock %}
