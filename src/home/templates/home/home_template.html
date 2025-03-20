@@ -36,24 +36,15 @@
       background-color: #0d6efd;
       color: #fff;
     }
-
-    /* (Опционально) Если хотите, чтобы выпадающее меню было тоже тёмным */
-    /* .dropdown-menu {
-      background-color: #444;
+    .dropdown-menu {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
-    .dropdown-item {
+
+    /* Фон при наведении на пункт меню */
+    .dropdown-menu .dropdown-item:hover {
+      background-color: #0d6efd; /* или любой другой оттенок */
       color: #fff;
     }
-    .dropdown-item:hover {
-      background-color: #555;
-      color: #fff;
-    } */
-
-    /* (Дополнительно) Если хотите открывать меню при наведении:
-    .nav-item.dropdown:hover .dropdown-menu {
-      display: block;
-    }
-    */
   </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #333;">
@@ -61,7 +52,7 @@
 <!-- Навигационная панель -->
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
+    <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
       ФСП
     </a>
 
@@ -81,10 +72,7 @@
           <a class="nav-link" href="/articles">Статьи</a>
         </li>
         <li class="nav-item mx-2">
-          <a class="nav-link" href="#">Участники</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="#">Олимпиады</a>
+          <a class="nav-link" href="api/codeforces/participants">Участники</a>
         </li>
 
         <!-- Пункт "Информация" с выпадающим меню -->

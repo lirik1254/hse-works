@@ -37,6 +37,15 @@
       background-color: #0d6efd;
       color: #fff;
     }
+    .dropdown-menu {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Фон при наведении на пункт меню */
+    .dropdown-menu .dropdown-item:hover {
+      background-color: #0d6efd; /* или любой другой оттенок */
+      color: #fff;
+    }
     /* Тёмный стиль для формы фильтра */
     .form-control,
     .form-select {
@@ -80,30 +89,45 @@
 <!-- Навигационная панель -->
 <nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container">
-    <!-- Логотип -->
-    <a class="navbar-brand fw-bold" href="#">
+    <a class="navbar-brand d-flex align-items-center fw-bold" href="/">
       ФСП
     </a>
-    <!-- Меню -->
+
+    <!-- Кнопка-«гамбургер» (для мобильных) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar" aria-controls="mainNavbar"
+            aria-expanded="false" aria-label="Переключить навигацию">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
     <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
       <ul class="navbar-nav">
         <li class="nav-item mx-2">
-          <a class="nav-link" href="#">Новости</a>
+          <a class="nav-link" href="/news">Новости</a>
         </li>
         <li class="nav-item mx-2">
-          <a class="nav-link" href="#">Статьи</a>
+          <a class="nav-link" href="/articles">Статьи</a>
         </li>
         <li class="nav-item mx-2">
-          <a class="nav-link" href="#">Участники</a>
+          <a class="nav-link" href="api/codeforces/participants">Участники</a>
         </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="#">Олимпиады</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link" href="#">Информация</a>
+
+        <!-- Пункт "Информация" с выпадающим меню -->
+        <li class="nav-item dropdown mx-2">
+          <a class="nav-link dropdown-toggle" href="#" id="infoDropdown" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
+            Информация
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="infoDropdown">
+            <li><a class="dropdown-item" href="#">Глоссарий</a></li>
+            <li><a class="dropdown-item" href="#">Советы и рекомендации</a></li>
+            <li><a class="dropdown-item" href="#">Гайды по спортпроге</a></li>
+            <li><a class="dropdown-item" href="#">Ресурсы по спортпроге</a></li>
+          </ul>
         </li>
       </ul>
     </div>
+
     <!-- Кнопка «Присоединиться к нам» -->
     <a href="#" class="btn join-btn d-none d-lg-block">
       Присоединиться<br>к нам
