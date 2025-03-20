@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Разделы</title>
+</head>
+<body>
+<h1>Список разделов</h1>
+<ul>
+    {% for section in sections %}
+        <li>
+            <a href="{% url 'section_detail' slug=section.slug %}">
+                {{ section.title }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+</body>
+</html>
