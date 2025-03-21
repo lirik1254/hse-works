@@ -45,7 +45,11 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ["bio", "university_group", "codeforces_handle"]
-
+        labels = {
+            "bio": "Биография",
+            "university_group": "Учебная группа",
+            "codeforces_handle": "Ник codeforces",
+        }
     def clean_codeforces_handle(self):
         """Проверка уникальности Codeforces handle и существования аккаунта."""
         codeforces_handle = self.cleaned_data.get("codeforces_handle")
@@ -93,3 +97,4 @@ class UserProfileForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
