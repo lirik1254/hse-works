@@ -252,5 +252,6 @@ fabric.properties
 envs/*
 !envs/.env.example
 
-# AlgoPath media files
+# Algopath media files
 media/*
+static/*

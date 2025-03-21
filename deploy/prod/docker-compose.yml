@@ -33,6 +33,8 @@ services:
     depends_on:
       - postgres
       - redis
+    volumes:
+      - ../../static:/static
 
   nginx:
     image: nginx:latest
