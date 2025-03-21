@@ -1,4 +1,4 @@
-# AlgoPath
+# Algopath
 
 ## Использование
 
@@ -6,9 +6,8 @@
 Переменные окружения находятся в папке `envs`
 
 ### Запуск
-PROD:
 ```bash
-docker-compose -f deploy/prod/docker-compose.yml up --build -d
+docker-compose up --build -d
 ````
 
 ## Полезные команды для Django

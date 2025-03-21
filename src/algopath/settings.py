@@ -11,17 +11,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from .utils import *
 
 import os
 
 # from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent # Переходим в корень проекта
-# env_path = BASE_DIR / 'envs' / '.env.local'
-#
-# # Загружаем переменные окружения
-# load_dotenv(dotenv_path=env_path)
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -55,7 +52,6 @@ INSTALLED_APPS = [
     'user_profiles.apps.UserProfilesConfig',
     'widget_tweaks',
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -165,11 +161,6 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ),
 }
-
-
-def str_to_bool(value):
-    return value.lower() in 'true'
-
 
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
