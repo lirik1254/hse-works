@@ -1,24 +1,125 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block content %}
 <div class="container my-5">
-    <h1>Список зарегистрированных пользователей</h1>
-    <ul>
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="mb-4">
+            <i class="bi bi-people-fill me-3"></i>Участники платформы
+        </h1>
+    </div>
+
+    {% if participants_data %}
+    <div class="row g-4">
         {% for participant in participants_data %}
-            <li>
-                <a href="/api/codeforces/participants/{{ participant.username }}">
-                    {{ participant.username }}{% if participant.codeforces_handle %} ({{ participant.codeforces_handle }}){% endif %}
-                </a>
-                {% if participant.rating != "-" %}
-                    - Рейтинг: {{ participant.rating }}
-                {% else %}
-                    - Рейтинг: Не доступен
-                {% endif %}
-            </li>
-        {% empty %}
-            <li>Нет зарегистрированных пользователей</li>
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="card h-100 border-secondary bg-dark-2 shadow-lg hover-scale">
+                <div class="card-header bg-dark-3 text-white py-3">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-person-badge fs-3 me-3 text-mint"></i>
+                        <div>
+                            <h2 class="h5 mb-0">{{ participant.username }}</h2>
+                            {% if participant.codeforces_handle %}
+                            <small class="opacity-75">@{{ participant.codeforces_handle }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <div class="d-flex flex-column gap-3">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-graph-up me-2 text-mint"></i>
+                            <span class="fs-5 fw-bold {% if participant.rating != '-' %}
+                                {% if participant.rating > 2000 %}text-danger
+                                {% elif participant.rating > 1500 %}text-warning
+                                {% else %}text-success
+                                {% endif %}
+                            {% endif %}">
+                                Рейтинг: {{ participant.rating|default:"Не доступен" }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer bg-transparent border-top-0 py-3">
+                    <a href="/api/codeforces/participants/{{ participant.username }}" 
+                       class="btn btn-mint w-100 btn-hover">
+                        <i class="bi bi-file-person me-2"></i>
+                        Подробная информация
+                    </a>
+                </div>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
-    <a href="/">Назад</a>
+    </div>
+    {% else %}
+    <div class="alert alert-dark d-flex align-items-center mt-5" role="alert">
+        <i class="bi bi-info-circle-fill fs-3 me-3 text-mint"></i>
+        <div class="h4 mb-0">Пока нет зарегистрированных участников</div>
+    </div>
+    {% endif %}
 </div>
 
+<style>
+    :root {
+        --bs-body-bg: #333;
+        --bs-body-color: #fff;
+        --mint-color: #89d2c5;
+        --dark-2: #444;
+        --dark-3: #555;
+    }
+    
+    .hover-scale {
+        transition: transform 0.2s ease-in-out;
+    }
+    .hover-scale:hover {
+        transform: translateY(-5px);
+    }
+    
+    .btn-hover {
+        transition: all 0.2s ease;
+    }
+    .btn-hover:hover {
+        background: var(--mint-color);
+        box-shadow: 0 4px 15px rgba(137, 210, 197, 0.25);
+    }
+    
+    .text-mint {
+        color: var(--mint-color) !important;
+    }
+    
+    .btn-outline-mint {
+        border-color: var(--mint-color);
+        color: var(--mint-color);
+    }
+    
+    .btn-outline-mint:hover {
+        background: var(--mint-color);
+        color: #333;
+    }
+    
+    .btn-mint {
+        background: var(--mint-color);
+        color: #333;
+        border: none;
+    }
+    
+    .btn-mint:hover {
+        background: #6ab0a6;
+        color: #333;
+    }
+    
+    .bg-dark-2 {
+        background-color: var(--dark-2);
+    }
+    
+    .bg-dark-3 {
+        background-color: var(--dark-3);
+    }
+    
+    .card {
+        border-color: #666;
+    }
+</style>
+{% endblock %}

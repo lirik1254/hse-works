@@ -8,6 +8,7 @@
     <!-- Подключаем Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         .navbar-custom {
             height: 70px;
@@ -72,6 +73,16 @@
             background-color: #0d6efd;
             color: #fff;
         }
+        .btn-mint {
+            background-color: #89d2c5;
+            color: #333;
+            border: none;
+        }
+
+        .btn-mint:hover {
+            background-color: #6ab0a6;
+            color: #333;
+        }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
@@ -113,21 +124,41 @@
             </li>
           </ul>
         </div>
-     {% if user.is_authenticated %}
-        <a href="/api/userprofile" style="margin-right: 10px; display: inline-block;" title="Профиль">
-          <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
-        </a>
-          <form action="/api/logout" method="post" style="display: inline-block; margin-right: 10px;">
-            {% csrf_token %}
-          <button type="submit" class="btn btn-link text-white" style="padding: 0;">Выйти</button>
-        </form>
-
-       {% else %}
-      <a href="/api/register/" class="btn join-btn d-none d-lg-block">
-        Присоединиться<br>к нам
-      </a>
-        {% endif %}
-
+          <div class="ms-auto d-flex align-items-center">
+              {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button"
+                       id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle fs-5 me-2"></i>
+                        <span class="d-none d-lg-inline">{{ user.username }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                        <li>
+                            <a class="dropdown-item" href="/api/userprofile">
+                                <i class="bi bi-person me-2"></i>Профиль
+                            </a>
+                        </li>
+                        <li>
+                            <form method="post" action="/api/logout">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Выйти
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+              {% else %}
+                <div class="d-flex gap-2">
+                    <a href="/api/login" class="btn btn-outline-light">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Войти
+                    </a>
+                    <a href="/api/register" class="btn btn-mint">
+                        <i class="bi bi-person-plus me-2"></i>Регистрация
+                    </a>
+                </div>
+              {% endif %}
+          </div>
       </div>
     </nav>
     <!-- Основной контент -->
