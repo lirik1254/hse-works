@@ -14,8 +14,14 @@ from pathlib import Path
 
 import os
 
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent  # Переходим в корень проекта
+env_path = BASE_DIR / 'envs' / '.env.local'
+
+# Загружаем переменные окружения
+load_dotenv(dotenv_path=env_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -49,6 +55,7 @@ INSTALLED_APPS = [
     'user_profiles.apps.UserProfilesConfig',
     'widget_tweaks',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
