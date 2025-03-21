@@ -60,6 +60,13 @@ class RegistrationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         self.fields['password1'].help_text = "Не менее 8 символов"
 
+        # Переименовываем поля на русский язык
+        self.fields['first_name'].label = "Имя"
+        self.fields['last_name'].label = "Фамилия"
+        self.fields['university_group'].label = "Группа"
+        self.fields['codeforces_handle'].label = "Ник Codeforces"
+
+
 class CustomAuthenticationForm(forms.Form):
     username = forms.CharField(
         label="Имя пользователя или Email",
