@@ -1,28 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ section.title }}</title>
-</head>
-<body>
-<h1>{{ section.title }}</h1>
+{% extends "base.html" %}
+{% block title %}{{ section.title }}{% endblock %}
 
-{% if subsections %}
-<h2>Подразделы</h2>
-<ul>
-    {% for sub in subsections %}
-    <li><a href="{% url 'section_detail' sub.slug %}">{{ sub.title }}</a></li>
-    {% endfor %}
-</ul>
-{% endif %}
+{% load static %}
 
-{% if pages %}
-<h2>Страницы</h2>
-<ul>
-    {% for page in pages %}
-    <li><a href="{% url 'page_detail' page.slug %}">{{ page.title }}</a></li>
-    {% endfor %}
-</ul>
-{% endif %}
-</body>
-</html>
+{% block content %}
+<div class="container my-5">
+  <!-- Название раздела -->
+  <h1 class="mb-4">{{ section.title }}</h1>
+
+  <!-- Список подразделов -->
+  {% if subsections %}
+    <h2 class="mb-3">Подразделы</h2>
+    <ul class="list-group mb-4">
+      {% for sub in subsections %}
+        <li class="list-group-item bg-dark">
+          <a href="{% url 'section_detail' sub.slug %}" class="text-decoration-none text-light">
+            <h5 class="mb-0">{{ sub.title }}</h5>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <!-- Список страниц -->
+  {% if pages %}
+    <h2 class="mb-3">Страницы</h2>
+    <ul class="list-group mb-4">
+      {% for page in pages %}
+        <li class="list-group-item bg-dark">
+          <a href="{% url 'page_detail' page.slug %}" class="text-decoration-none text-light">
+            <h5 class="mb-0">{{ page.title }}</h5>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  body {
+    background-color: #333;
+    color: #fff;
+  }
+  /* Тёмный стиль для элементов списка */
+  .list-group-item.bg-dark {
+    background-color: #444 !important;
+    border: 1px solid #555 !important;
+  }
+  .list-group-item.bg-dark:hover {
+    background-color: #555 !important;
+  }
+</style>
+{% endblock %}

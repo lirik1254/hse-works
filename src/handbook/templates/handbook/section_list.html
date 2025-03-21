@@ -1,19 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Разделы</title>
-</head>
-<body>
-<h1>Список разделов</h1>
-<ul>
+{% extends "base.html" %}
+{% block title %}Список разделов{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+  <h1 class="mb-4">Список разделов</h1>
+  <ul class="list-group">
     {% for section in sections %}
-        <li>
-            <a href="{% url 'section_detail' slug=section.slug %}">
-                {{ section.title }}
-            </a>
-        </li>
+      <li class="list-group-item bg-dark">
+        <a href="{% url 'section_detail' slug=section.slug %}" class="text-decoration-none text-light">
+          <h5 class="fw-bold mb-0">{{ section.title }}</h5>
+        </a>
+      </li>
     {% endfor %}
-</ul>
-</body>
-</html>
+  </ul>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  body {
+    background-color: #333;
+    color: #fff;
+  }
+  /* Тёмный стиль для элементов списка */
+  .list-group-item.bg-dark {
+    background-color: #444 !important;
+    border: 1px solid #555 !important;
+  }
+  .list-group-item.bg-dark:hover {
+    background-color: #555 !important;
+  }
+</style>
+{% endblock %}

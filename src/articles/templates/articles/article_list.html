@@ -1,62 +1,146 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Список статей</title>
-</head>
-<body>
-<h1>Список статей</h1>
+{% extends "base.html" %}
+{% load static %}
 
-<form method="GET">
-    <input type="text" name="q" value="{{ query }}" placeholder="Поиск по заголовку">
-    <select name="author">
+{% block title %}Список статей{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h1 class="mb-4">Список статей</h1>
+
+  <!-- Форма поиска и фильтра -->
+  <form method="GET" class="row g-3 mb-4">
+    <div class="col-md-3">
+      <input type="text" name="q" value="{{ query }}" placeholder="Поиск по заголовку" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <select name="author" class="form-select">
         <option value="">Все авторы</option>
         {% for article in page_obj %}
-        <option value="{{ article.author.id }}" {% if author_id|slugify == article.author.id|slugify %}selected{% endif %}>
+          <option value="{{ article.author.id }}" 
+            {% if author_id|slugify == article.author.id|slugify %}selected{% endif %}>
             {{ article.author.username }}
-        </option>
+          </option>
         {% endfor %}
-    </select>
-    <select name="tag">
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select name="tag" class="form-select">
         <option value="">Все теги</option>
         {% for tag in tags %}
-        <option value="{{ tag.id }}" {% if tag_id|slugify == tag.id|slugify %}selected{% endif %}>
+          <option value="{{ tag.id }}"
+            {% if tag_id|slugify == tag.id|slugify %}selected{% endif %}>
             {{ tag.name }}
-        </option>
+          </option>
         {% endfor %}
-    </select>
-    <button type="submit">Фильтр</button>
-</form>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-primary w-100">Фильтр</button>
+    </div>
+  </form>
 
-{% for article in page_obj %}
-<div>
-    <h2><a href="{% url 'article_detail' article.id %}">{{ article.title }}</a></h2>
-    <p><strong>Автор:</strong> {{ article.author.username }}</p>
-    <p><strong>Теги:</strong>
-        {% for tag in article.tags.all %}
-        <span class="badge bg-primary">{{ tag.name }}</span>
-        {% empty %}
-        <span class="text-muted">Нет тегов</span>
-        {% endfor %}
-    </p>
-    <p><strong>Дата публикации:</strong> {{ article.created_at }}</p>
+  <!-- Список статей -->
+  {% if page_obj %}
+    <div class="row">
+      {% for article in page_obj %}
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card bg-dark text-light border-light h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{% url 'article_detail' article.id %}" class="text-decoration-none text-light">
+                  {{ article.title }}
+                </a>
+              </h5>
+              <p class="card-text">
+                <strong>Автор:</strong> {{ article.author.username }}<br>
+                <strong>Теги:</strong>
+                {% for tag in article.tags.all %}
+                  <span class="badge bg-primary">{{ tag.name }}</span>
+                {% empty %}
+                  <span class="text-mint">Нет тегов</span>
+                {% endfor %}
+              </p>
+            </div>
+            <div class="card-footer-light text-mint">
+              <strong>Дата публикации:</strong> {{ article.created_at }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Статей нет.</p>
+  {% endif %}
+
+  <!-- Пагинация -->
+  <nav aria-label="Страницы" class="mt-4">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1">Первая</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+        </li>
+      {% endif %}
+      <li class="page-item disabled">
+        <span class="page-link">
+          Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+        </span>
+      </li>
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
 </div>
-{% empty %}
-<p>Статей нет.</p>
-{% endfor %}
+{% endblock %}
 
-<div class="pagination">
-    {% if page_obj.has_previous %}
-    <a href="?page=1">Первая</a>
-    <a href="?page={{ page_obj.previous_page_number }}"><</a>
-    {% endif %}
-
-    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
-
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">></a>
-    <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
-    {% endif %}
-</div>
-</body>
-</html>
+{% block extra_css %}
+<style>
+    .form-control,
+    .form-select {
+      background-color: #444 !important;
+      color: #fff !important;
+      border: 1px solid #555 !important;
+    }
+    
+    .form-control::placeholder {
+      color: #89d2c5;
+    }
+    
+    .card.bg-dark {
+      background-color: #444 !important;
+    }
+    
+    .card.bg-dark .card-footer {
+      background-color: #555 !important;
+    }
+    
+    .pagination .page-item .page-link {
+      background-color: #444;
+      color: #fff;
+      border-color: #555;
+    }
+    
+    .pagination .page-item .page-link:hover {
+      background-color: #555;
+      color: #fff;
+    }
+    
+    .card-footer-light {
+      margin-left: 15px;
+      margin-bottom: 3px;
+      color: #89d2c5;
+    }
+    
+    .text-mint {
+      color: #89d2c5;
+    }
+</style>
+{% endblock %}

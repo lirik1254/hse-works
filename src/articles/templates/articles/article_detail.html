@@ -1,32 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Статья</title>
-</head>
-<body>
-<h1>{{ article.title }}</h1>
-<p><strong>Автор:</strong> {{ article.author.username }}</p>
-<p><strong>Дата публикации:</strong> {{ article.created_at }}</p>
-<p><strong>Теги:</strong>
-    {% for tag in article.tags.all %}
-    <span class="badge bg-success">{{ tag.name }}</span>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <!-- Основная карточка со статьёй -->
+  <div class="card bg-dark text-light border-light">
+    <div class="card-body">
+      <h1 class="card-title">{{ article.title }}</h1>
+      <p class="card-text">
+        <strong>Автор:</strong> {{ article.author.username }}<br>
+        <strong>Дата публикации:</strong> {{ article.created_at }}<br>
+        <strong>Теги:</strong>
+        {% for tag in article.tags.all %}
+          <span class="badge bg-success">{{ tag.name }}</span>
+        {% empty %}
+          <span class="text-muted">Нет тегов</span>
+        {% endfor %}
+      </p>
+      <hr>
+      <div class="mb-3">
+        {{ article.content|safe }}
+      </div>
+      <a href="{% url 'article_list' %}" class="btn btn-outline-light">
+        &laquo; Вернуться к списку
+      </a>
+    </div>
+  </div>
+
+  <!-- Блок комментариев -->
+  <div class="mt-5">
+    <h2>Комментарии</h2>
+    {% for comment in comments %}
+      <div class="card bg-secondary text-light mb-3">
+        <div class="card-body">
+          <p><strong>{{ comment.author.username }}</strong> написал:</p>
+          <p>{{ comment.content|safe }}</p>
+          <p class="text-muted mb-0">Дата: {{ comment.created_at }}</p>
+        </div>
+      </div>
     {% empty %}
-    <span class="text-muted">Нет тегов</span>
+      <p>Комментариев пока нет.</p>
     {% endfor %}
-</p>
-<p>{{ article.content|safe }}</p> {# Используем `safe`, если TinyMCE #}
-<a href="{% url 'article_list' %}">< Вернуться к списку</a>
-<hr>
-<h2>Комментарии</h2>
-{% for comment in comments %}
-<div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
-    <p><strong>{{ comment.author.username }}</strong> написал:</p>
-    <p>{{ comment.content|safe }}</p>
-    <p><small>Дата: {{ comment.created_at }}</small></p>
+  </div>
 </div>
-{% empty %}
-<p>Комментариев пока нет.</p>
-{% endfor %}
-</body>
-</html>
+{% endblock %}

@@ -1,12 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ page.title }}</title>
-</head>
-<body>
-<h1>{{ page.title }}</h1>
-<div>{{ page.content|safe }}</div>
-<a href="{% url 'section_detail' page.sections.first.slug %}">< Вернуться в раздел</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}{{ page.title }}{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+  <!-- Карточка для содержимого страницы -->
+  <div class="card bg-dark text-light border-light">
+    <div class="card-body">
+      <h1 class="card-title">{{ page.title }}</h1>
+      <hr>
+      <!-- Выводим содержимое (HTML) страницы -->
+      <div class="mb-4">
+        {{ page.content|safe }}
+      </div>
+      <!-- Ссылка «Вернуться в раздел» -->
+      <a href="{% url 'section_detail' page.sections.first.slug %}" class="btn btn-outline-light">
+        &laquo; Вернуться в раздел
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

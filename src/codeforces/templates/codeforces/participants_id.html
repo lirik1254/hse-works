@@ -1,42 +1,162 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информация о пользователе: {{ user_data.user_firstname }} {{ user_data.user_lastname }}</title>
-</head>
-<body>
-    <h1>Информация о пользователе: {{ user_data.user_firstname }} {{ user_data.user_lastname }}</h1>
+{% extends "base.html" %}
+{% load static %}
 
-    <div>
-        <p><strong>Имя:</strong> {% if user_data.user_firstname %}{{ user_data.user_firstname }}{% else %}-{% endif %}</p>
-        <p><strong>Фамилия:</strong> {% if user_data.user_lastname %}{{ user_data.user_lastname }}{% else %}-{% endif %}</p>
-        <p><strong>Дата регистрации:</strong> {% if user_data.user_registration %}{{ user_data.user_registration }}{% else %}-{% endif %}</p>
-        <p><strong>Последний вход:</strong> {% if user_data.user_last_seen %}{{ user_data.user_last_seen }}{% else %}-{% endif %}</p>
+{% block title %}Профиль {{ user_data.user_firstname }} {{ user_data.user_lastname }}{% endblock %}
 
-        <p><strong>Биография:</strong> {% if user_data.user_bio %}{{ user_data.user_bio }}{% else %}-{% endif %}</p>
-        <p><strong>Группа университета:</strong> {% if user_data.user_university_group %}{{ user_data.user_university_group }}{% else %}-{% endif %}</p>
+{% block content %}
+<div class="container my-5">
+
+
+    <div class="card bg-dark-2 border-secondary mb-4">
+        <div class="card-header bg-dark-3 text-mint">
+            <h1 class="h2 mb-0">
+                <i class="bi bi-person-badge me-2"></i>
+                {{ user_data.user_firstname }} {{ user_data.user_lastname }}
+            </h1>
+        </div>
+        
+        <div class="card-body">
+            <div class="row g-4">
+                <!-- Основная информация -->
+                <div class="info-item bg-dark-3 p-3 rounded">
+                        <h3 class="h5 text-mint mb-3"><i class="bi bi-info-circle me-2"></i>Основная информация</h3>
+                        <ul class="list-unstyled text-white">
+                            <li><strong>Имя:</strong> {{ user_data.user_firstname|default:"-" }}</li>
+                            <li><strong>Фамилия:</strong> {{ user_data.user_lastname|default:"-" }}</li>
+                            <li><strong>Дата регистрации:</strong> {{ user_data.user_registration|default:"-" }}</li>
+                            <li><strong>Последний вход:</strong> {{ user_data.user_last_seen|default:"-" }}</li>
+                            <li><strong>Группа:</strong> {{ user_data.user_university_group|default:"-" }}</li>
+                        </ul>
+                </div>
+
+                <!-- Биография -->
+                <div class="info-item bg-dark-3 p-3 rounded">
+                        <h3 class="h5 text-mint mb-3"><i class="bi bi-journal-text me-2"></i>Биография</h3>
+                        <p class="mb-0 text-white">{{ user_data.user_bio|default:"Информация не указана" }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <h2>Информация о Codeforces</h2>
-
-    {% if cf_data %}
-        <div>
-            <img src="{{ cf_data.title_photo }}" alt="Фото пользователя Codeforces" style="width: 200px; height: 200px;">
+    <!-- Codeforces информация -->
+    <div class="card bg-dark-2 border-secondary">
+        <div class="card-header bg-dark-3 text-mint">
+            <h2 class="h4 mb-0">
+                <i class="bi bi-code-square me-2"></i>
+                Codeforces статистика
+            </h2>
         </div>
+        
+        <div class="card-body">
+            {% if cf_data %}
+            <div class="row g-4">
+                <!-- Аватар -->
+                <div class="col-md-3 text-center">
+                    <img src="{{ cf_data.title_photo }}" 
+                         class="profile-img rounded-circle shadow" 
+                         alt="Фото профиля Codeforces">
+                </div>
 
-        <p><strong>Ник на Codeforces:</strong> {% if user_data.codeforces_handle %}{{ user_data.codeforces_handle }}{% else %}-{% endif %}</p>
-        <p><strong>Текущий ранг:</strong> {% if cf_data.rank %}{{ cf_data.rank }}{% else %}-{% endif %}</p>
-        <p><strong>Максимальный ранг:</strong> {% if cf_data.max_rank %}{{ cf_data.max_rank }}{% else %}-{% endif %}</p>
-        <p><strong>Текущий рейтинг:</strong> {% if cf_data.rating %}{{ cf_data.rating }}{% else %}-{% endif %}</p>
-        <p><strong>Максимальный рейтинг:</strong> {% if cf_data.max_rating %}{{ cf_data.max_rating }}{% else %}-{% endif %}</p>
-        <p><strong>Количество друзей:</strong> {% if cf_data.friend_count %}{{ cf_data.friend_count }}{% else %}-{% endif %}</p>
-        <p><strong>Организация:</strong> {% if cf_data.organization %}{{ cf_data.organization }}{% else %}-{% endif %}</p>
-        <p><strong>Дата регистрации:</strong> {% if cf_data.registration_date %}{{ cf_data.registration_date }}{% else %}-{% endif %}</p>
-    {% else %}
-        <p>Информация о пользователе на Codeforces не найдена.</p>
-    {% endif %}
+                <!-- Статистика -->
+                <div class="col-md-9">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <div class="info-item bg-dark-3 p-3 rounded">
+                                <h4 class="h6 text-mint mb-2"><i class="bi bi-graph-up me-2"></i>Рейтинг</h4>
+                                <div class="d-flex justify-content-between text-white">
+                                    <span>Текущий:</span>
+                                    <span class="fw-bold">{{ cf_data.rating|default:"-" }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between text-white">
+                                    <span>Максимальный:</span>
+                                    <span class="fw-bold">{{ cf_data.max_rating|default:"-" }}</span>
+                                </div>
+                            </div>
+                        </div>
 
-    <a href="/api/codeforces/participants/">Назад</a>
-</body>
-</html>
+                        <div class="col-12 col-md-6">
+                            <div class="info-item bg-dark-3 p-3 rounded">
+                                <h4 class="h6 text-mint mb-2"><i class="bi bi-trophy me-2"></i>Ранг</h4>
+                                <div class="d-flex justify-content-between text-white">
+                                    <span>Текущий:</span>
+                                    <span class="fw-bold">{{ cf_data.rank|default:"-" }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between text-white">
+                                    <span>Максимальный:</span>
+                                    <span class="fw-bold">{{ cf_data.max_rank|default:"-" }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Дополнительная информация -->
+                        <div class="col-12">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="info-item bg-dark-3 p-3 rounded">
+                                        <h4 class="h6 text-mint mb-2"><i class="bi bi-people me-2"></i>Друзья</h4>
+                                        <span class="fw-bold text-white">{{ cf_data.friend_count|default:"-" }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="info-item bg-dark-3 p-3 rounded">
+                                        <h4 class="h6 text-mint mb-2"><i class="bi bi-building me-2"></i>Организация</h4>
+                                        <span class="fw-bold text-white">{{ cf_data.organization|default:"-" }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="info-item bg-dark-3 p-3 rounded">
+                                        <h4 class="h6 text-mint mb-2"><i class="bi bi-calendar-event me-2"></i>Регистрация</h4>
+                                        <span class="fw-bold text-white">{{ cf_data.registration_date|default:"-" }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-dark text-center">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                Информация о Codeforces не найдена
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 3px solid #89d2c5;
+    }
+    
+    .info-item {
+        background-color: #444;
+        border: 1px solid #555;
+        transition: transform 0.2s ease;
+    }
+    
+    .info-item:hover {
+        transform: translateY(-2px);
+    }
+    
+    .bg-dark-2 {
+        background-color: #444 !important;
+    }
+    
+    .bg-dark-3 {
+        background-color: #555 !important;
+    }
+    
+    .text-mint {
+        color: #89d2c5 !important;
+    }
+    .text-white{
+        color: #fff;
+    }
+</style>
+{% endblock %}

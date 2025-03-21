@@ -56,6 +56,9 @@ class RegistrationForm(UserCreationForm):
             "codeforces_handle": self.cleaned_data.get("codeforces_handle"),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].help_text = "Не менее 8 символов"
 
 class CustomAuthenticationForm(forms.Form):
     username = forms.CharField(

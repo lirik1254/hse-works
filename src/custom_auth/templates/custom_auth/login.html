@@ -1,29 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Стили для контейнера страницы логина */
+  .login-container {
+    max-width: 400px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #444; /* темный фон, сочетается с общим стилем */
+    border: 1px solid #555;
+    border-radius: 8px;
+  }
+  .login-container h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #fff;
+  }
+  .login-container form button {
+    width: 100%;
+  }
+  .login-container a {
+    color: #0d6efd;
+    text-decoration: none;
+  }
+  .login-container a:hover {
+    text-decoration: underline;
+  }
+  /* Сообщения об ошибках */
+  .login-messages {
+    margin-top: 1rem;
+    list-style: none;
+    padding-left: 0;
+  }
+  .login-messages li {
+    background-color: #0d6efd;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+  .btn-mint{
+    background-color: #98FB98;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="login-container">
     <h1>Login</h1>
     <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Log in</button>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-mint">Log in</button>
     </form>
 
-    <!-- Сообщения об ошибке -->
     {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
+      <ul class="login-messages">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
     {% endif %}
 
-    <!-- Ссылка на восстановление пароля -->
-    <p><a href="{% url 'reset_password' %}">Забыли пароль?</a></p>
-
-</body>
-</html>
+    <p class="mt-3 text-center"><a href="{% url 'reset_password' %}">Забыли пароль?</a></p>
+  </div>
+</div>
+{% endblock %}

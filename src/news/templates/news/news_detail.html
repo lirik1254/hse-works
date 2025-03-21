@@ -1,28 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Новость</title>
-</head>
-<body>
-<h1>{{ news.title }}</h1>
-<p><strong>Автор:</strong> {{ news.author.username }}</p>
-<p><strong>Дата публикации:</strong> {{ news.created_at }}</p>
-<p><strong>Категория:</strong>
-    <span class="badge bg-success">{{ news.category.name }}</span>
-</p>
-<p>{{ news.content|safe }}</p> {# Используем `safe`, если TinyMCE #}
-<a href="{% url 'news_list' %}">< Вернуться к списку</a>
-<hr>
-<h2>Комментарии</h2>
-{% for comment in comments %}
-<div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
-    <p><strong>{{ comment.author.username }}</strong> написал:</p>
-    <p>{{ comment.content|safe }}</p>
-    <p><small>Дата: {{ comment.created_at }}</small></p>
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container my-5">
+  <!-- Основная карточка с новостью -->
+  <div class="card bg-dark text-light border-light">
+    <div class="card-body">
+      <h1 class="card-title">{{ news.title }}</h1>
+      <p class="card-text">
+        <strong>Автор:</strong> {{ news.author.username }}<br>
+        <strong>Дата публикации:</strong> {{ news.created_at }}<br>
+        <strong>Категория:</strong>
+        <span class="badge bg-success">{{ news.category.name }}</span>
+      </p>
+      <hr>
+      <div class="mb-3">
+        {{ news.content|safe }}
+      </div>
+      <a href="{% url 'news_list' %}" class="btn btn-outline-light">
+        &laquo; Вернуться к списку
+      </a>
+    </div>
+  </div>
+
+  <!-- Блок комментариев -->
+  <div class="mt-5">
+    <h2>Комментарии</h2>
+    {% for comment in comments %}
+      <div class="card bg-secondary text-light mb-3">
+        <div class="card-body">
+          <p><strong>{{ comment.author.username }}</strong> написал:</p>
+          <p>{{ comment.content|safe }}</p>
+          <p class="text-muted mb-0">Дата: {{ comment.created_at }}</p>
+        </div>
+      </div>
+    {% empty %}
+      <p>Комментариев пока нет.</p>
+    {% endfor %}
+  </div>
 </div>
-{% empty %}
-<p>Комментариев пока нет.</p>
-{% endfor %}
-</body>
-</html>
+{% endblock %}
