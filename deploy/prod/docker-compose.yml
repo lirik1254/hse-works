@@ -1,0 +1,51 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    ports:
+      - "5438:5432"
+    env_file:
+      - ../../envs/.env.prod
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  django:
+    build:
+      context: ../../
+      dockerfile: deploy/prod/Dockerfile
+    container_name: django
+    restart: always
+    command: gunicorn algopath.wsgi:application --bind 0.0.0.0:8000
+    env_file:
+      - ../../envs/.env.prod
+    depends_on:
+      - postgres
+      - redis
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../../static:/static:ro
+    depends_on:
+      - django
+
+volumes:
+  redis_data:
+  postgres_data:

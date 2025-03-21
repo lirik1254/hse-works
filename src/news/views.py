@@ -7,7 +7,7 @@ class NewsListView(ListView):
     model = News
     template_name = 'news/news_list.html'
     context_object_name = 'news'
-    paginate_by = 1
+    paginate_by = 20
 
     def get_queryset(self):
         queryset = News.objects.filter(is_hidden=False).order_by('-created_at')
