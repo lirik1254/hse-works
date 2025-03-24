@@ -1,0 +1,12 @@
+org\example\engineeringsocialnetwork\entities\Users.class
+org\example\engineeringsocialnetwork\entities\Info.class
+org\example\engineeringsocialnetwork\entities\Project.class
+org\example\engineeringsocialnetwork\repository\UserRepository.class
+org\example\engineeringsocialnetwork\services\ProjectService.class
+org\example\engineeringsocialnetwork\entities\Course.class
+org\example\engineeringsocialnetwork\services\UserService.class
+org\example\engineeringsocialnetwork\controller\ProjectController.class
+org\example\engineeringsocialnetwork\controller\UserController.class
+org\example\engineeringsocialnetwork\repository\ProjectRepository.class
+org\example\engineeringsocialnetwork\Main.class
+org\example\engineeringsocialnetwork\DTO\ProjectDTO.class

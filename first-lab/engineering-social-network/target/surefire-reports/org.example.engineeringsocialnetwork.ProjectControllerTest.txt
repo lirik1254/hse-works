@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.example.engineeringsocialnetwork.ProjectControllerTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.945 s -- in org.example.engineeringsocialnetwork.ProjectControllerTest

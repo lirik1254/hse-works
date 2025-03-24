@@ -1,0 +1,9 @@
+org\example\engineeringsocialnetwork\entities\Info.class
+org\example\engineeringsocialnetwork\InputOutput.class
+org\example\engineeringsocialnetwork\entities\Project.class
+org\example\engineeringsocialnetwork\factory\ProjectFactory.class
+org\example\engineeringsocialnetwork\entities\User.class
+org\example\engineeringsocialnetwork\factory\UserFactory.class
+org\example\engineeringsocialnetwork\Main.class
+org\example\engineeringsocialnetwork\entities\Course.class
+org\example\engineeringsocialnetwork\factory\CourseFactory.class
