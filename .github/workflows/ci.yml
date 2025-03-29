@@ -30,17 +30,17 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
 
-      - name: Navigate to third-lab
-        run: cd third-lab
+      - name: Navigate to service directory
+        run: cd third-lab/engineering-social-network/${{ matrix.service }}
 
       - name: Build Service ${{ matrix.service }}
-        working-directory: third-lab/${{ matrix.service }}
+        working-directory: third-lab/engineering-social-network/${{ matrix.service }}
         run: mvn -B clean install -DskipTests
 
   checkstyle:
     name: Checkstyle
     runs-on: ubuntu-latest
-    needs: build  # Зависит от успешного завершения `build`
+    needs: build
     strategy:
       matrix:
         service: ['course', 'staticpages', 'user']
@@ -61,17 +61,17 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
 
-      - name: Navigate to third-lab
-        run: cd third-lab
+      - name: Navigate to service directory
+        run: cd third-lab/engineering-social-network/${{ matrix.service }}
 
       - name: Checkstyle ${{ matrix.service }}
-        working-directory: third-lab/${{ matrix.service }}
+        working-directory: third-lab/engineering-social-network/${{ matrix.service }}
         run: mvn -B checkstyle:check
 
   test:
     name: Test
     runs-on: ubuntu-latest
-    needs: checkstyle  # Зависит от успешного завершения `checkstyle`
+    needs: checkstyle
     strategy:
       matrix:
         service: ['course', 'staticpages', 'user']
@@ -92,9 +92,9 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
 
-      - name: Navigate to third-lab
-        run: cd third-lab
+      - name: Navigate to service directory
+        run: cd third-lab/engineering-social-network/${{ matrix.service }}
 
       - name: Test ${{ matrix.service }}
-        working-directory: third-lab/${{ matrix.service }}
+        working-directory: third-lab/engineering-social-network/${{ matrix.service }}
         run: mvn -B test

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d1a0a5e7-fbd5-48d2-86c8-028ed6cd76b8" name="Changes" comment="feat: complete second lab" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "lirik1254"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/lirik1254/EngineeringSocialNetwork.git",
+    "accountId": "20e8497d-3260-447f-a2b1-ec9d64055eed"
+  }
+}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2tu001zU7GzWPreC9a0xbILSGf0" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.AboutPageApplicationTests.executor": "Run",
+    "JUnit.AboutPageApplicationTests.test4.executor": "Run",
+    "JUnit.AboutPageApplicationTests.test7.executor": "Run",
+    "JUnit.CourseApplicationTests.createCourseTest.executor": "Run",
+    "JUnit.CourseApplicationTests.createCourseWithKafkaTest.executor": "Run",
+    "JUnit.CourseApplicationTests.executor": "Run",
+    "JUnit.CoursePageApplicationTests.executor": "Run",
+    "JUnit.CoursePageApplicationTests.testCreateCoursePage.executor": "Run",
+    "JUnit.CoursePageApplicationTests.testGetAllCoursePages.executor": "Run",
+    "JUnit.CoursePageApplicationTests.testGetAllCoursePagesEmpty.executor": "Run",
+    "JUnit.CoursePageApplicationTests.testGetCoursePageById.executor": "Run",
+    "JUnit.CoursePageApplicationTests.testKafkaCourseMessageProcessing.executor": "Run",
+    "JUnit.CreateUserTest.executor": "Run",
+    "JUnit.CreateUserTest.test1.executor": "Run",
+    "JUnit.CreateUserTest.test2.executor": "Run",
+    "JUnit.CreateUserTest.test3.executor": "Run",
+    "JUnit.CreateUserTest.test4.executor": "Run",
+    "JUnit.StaticPagesApplicationTests.executor": "Run",
+    "JUnit.StaticPagesApplicationTests.test3.executor": "Run",
+    "JUnit.StaticPagesApplicationTests.test4.executor": "Run",
+    "JUnit.StaticPagesApplicationTests.test5.executor": "Run",
+    "JUnit.StaticPagesApplicationTests.test6.executor": "Run",
+    "JUnit.StaticPagesApplicationTests.test7.executor": "Run",
+    "JUnit.UserApplicationTests.executor": "Run",
+    "JUnit.UserApplicationTests.test3.executor": "Run",
+    "JUnit.UserApplicationTests.test4.executor": "Run",
+    "JUnit.UserApplicationTests.test5.executor": "Run",
+    "Maven.microservices [checkstyle:check].executor": "Run",
+    "Maven.microservices [clean,install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.CourseApplication.executor": "Run",
+    "Spring Boot.StaticPagesApplication.executor": "Run",
+    "Spring Boot.StaticpagesApplication.executor": "Run",
+    "Spring Boot.UserApplication.executor": "Run",
+    "git-widget-placeholder": "secondLab",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/zhash/IdeaProjects/Microservices/checkstyle.xml",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "org.infernus.idea.checkstyle.CheckStyleConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\zhash\IdeaProjects\Microservices" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\zhash\IdeaProjects\Microservices\init-db" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.UserApplicationTests">
+    <configuration name="CourseApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="course" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="backend.academy.course.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="backend.academy.course" />
+      <option name="MAIN_CLASS_NAME" value="backend.academy.course.CourseApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CourseApplicationTests.createCourseTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="course" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="backend.academy.course.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="backend.academy.course" />
+      <option name="MAIN_CLASS_NAME" value="backend.academy.course.CourseApplicationTests" />
+      <option name="METHOD_NAME" value="createCourseTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CourseApplicationTests.createCourseWithKafkaTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="course" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="backend.academy.course.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="backend.academy.course" />
+      <option name="MAIN_CLASS_NAME" value="backend.academy.course.CourseApplicationTests" />
+      <option name="METHOD_NAME" value="createCourseWithKafkaTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="user" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="backend.academy.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="backend.academy.user" />
+      <option name="MAIN_CLASS_NAME" value="backend.academy.user.UserApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserApplicationTests.test4" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="user" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="backend.academy.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="backend.academy.user" />
+      <option name="MAIN_CLASS_NAME" value="backend.academy.user.UserApplicationTests" />
+      <option name="METHOD_NAME" value="test4" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CourseApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="course" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="backend.academy.course.CourseApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StaticPagesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="staticpages" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="backend.academy.staticpages.StaticPagesApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="user" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="backend.academy.user.UserApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.UserApplicationTests" />
+        <item itemvalue="JUnit.UserApplicationTests.test4" />
+        <item itemvalue="JUnit.CourseApplicationTests" />
+        <item itemvalue="JUnit.CourseApplicationTests.createCourseWithKafkaTest" />
+        <item itemvalue="JUnit.CourseApplicationTests.createCourseTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d1a0a5e7-fbd5-48d2-86c8-028ed6cd76b8" name="Changes" comment="" />
+      <created>1741186427563</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1741186427563</updated>
+      <workItem from="1741186428813" duration="276000" />
+      <workItem from="1741186716018" duration="5958000" />
+      <workItem from="1741247237326" duration="10252000" />
+      <workItem from="1741272269352" duration="621000" />
+      <workItem from="1741272922465" duration="39000" />
+      <workItem from="1741273242665" duration="1322000" />
+      <workItem from="1741274577658" duration="178000" />
+      <workItem from="1741274770518" duration="1215000" />
+      <workItem from="1741281811697" duration="14359000" />
+      <workItem from="1741346014297" duration="3785000" />
+      <workItem from="1741349821213" duration="442000" />
+      <workItem from="1741350277813" duration="5939000" />
+    </task>
+    <task id="LOCAL-00001" summary="feat: complete second lab">
+      <option name="closed" value="true" />
+      <created>1741355115470</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741355115470</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: complete second lab">
+      <option name="closed" value="true" />
+      <created>1741355655184</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1741355655184</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: complete second lab">
+      <option name="closed" value="true" />
+      <created>1741355689988</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1741355689988</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: complete second lab" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: complete second lab" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/staticpages/src/main/java/backend/academy/staticpages/KafkaConsumer.java</url>
+          <line>33</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/user/src/main/java/backend/academy/user/KafkaConsumer.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/staticpages/src/main/java/backend/academy/staticpages/controller/AboutPageController.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/staticpages/src/main/java/backend/academy/staticpages/service/AboutPageService.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/staticpages/src/main/java/backend/academy/staticpages/service/AboutPageService.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
