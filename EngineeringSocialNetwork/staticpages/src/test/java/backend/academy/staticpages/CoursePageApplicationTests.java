@@ -25,6 +25,7 @@ import org.testcontainers.shaded.org.awaitility.Awaitility;
 import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Mockito.verify;
@@ -33,19 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc
-@SpringBootTest
-@Testcontainers
-class CoursePageApplicationTests {
-    @Container
-    public static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17");
-
-    @Container
-    public static final KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("apache/kafka:3.7.0"));
-
-    @Autowired
-    MockMvc mockMvc;
-
+class CoursePageApplicationTests extends TestContainersSetUp{
     @Autowired
     private CoursePageRepository coursePageRepository;
 
@@ -64,11 +53,9 @@ class CoursePageApplicationTests {
     }
 
     @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-        registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers);
+    static void kafkaProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.kafka.consumer.group-id",
+                () -> "group-" + UUID.randomUUID());
     }
 
     @DisplayName("Создание CoursePage")

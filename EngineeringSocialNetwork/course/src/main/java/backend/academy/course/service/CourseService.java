@@ -11,20 +11,26 @@ import backend.academy.course.repository.ModuleRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-
-
 @Service
 @RequiredArgsConstructor
+@Slf4j
+@SuppressWarnings("MagicNumber")
 public class CourseService {
+    private static final String ALL_COURSES = "allCourses";
     private final CourseRepository courseRepository;
     private final ModuleRepository moduleRepository;
     private final LessonRepository lessonRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Transactional
     @Async
@@ -62,7 +68,17 @@ public class CourseService {
 
     @Transactional
     @Async
-    public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+    public CompletableFuture<List<Course>> getAllCourses() {
+        ValueOperations<String, Object> valueOps = redisTemplate.opsForValue();
+        List<Course> courses = (List<Course>) valueOps.get(ALL_COURSES);
+
+        if (courses != null) {
+            log.info("get courses from redis");
+            return CompletableFuture.completedFuture(courses);
+        }
+        log.info("get courses from DB");
+        courses = courseRepository.findAll();
+        valueOps.set(ALL_COURSES, courses, 10, TimeUnit.SECONDS);
+        return CompletableFuture.completedFuture(courses);
     }
 }

@@ -43,7 +43,7 @@ public class CourseController {
     }
 
     @GetMapping
-    public List<Course> getAllCourses() {
-        return courseService.getAllCourses();
+    public List<Course> getAllCourses() throws ExecutionException, InterruptedException {
+        return courseService.getAllCourses().get();
     }
 }
