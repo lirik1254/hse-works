@@ -32,14 +32,17 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2-
 
+      - name: Navigate to third-lab
+        run: cd third-lab
+
       - name: Build Service ${{ matrix.service }}
-        working-directory: ${{ matrix.service }}
+        working-directory: third-lab/${{ matrix.service }}
         run: mvn -B clean install
 
       - name: Checkstyle ${{ matrix.service }}
-        working-directory: ${{ matrix.service }}
+        working-directory: third-lab/${{ matrix.service }}
         run: mvn -B checkstyle:check
 
       - name: Test ${{ matrix.service }}
-        working-directory: ${{ matrix.service }}
+        working-directory: third-lab/${{ matrix.service }}
         run: mvn -B test
