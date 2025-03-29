@@ -1,0 +1,3 @@
+CREATE DATABASE "CourseServiceDB";
+CREATE DATABASE "PagesServiceDB";
+CREATE DATABASE "UserServiceDB";
